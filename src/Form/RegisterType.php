@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class RegisterType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('firstName')
+            ->add('lastName')
+            ->add('birthday')
+            ->add('email', TextType::class)
+           // ->add('roles')
+            ->add('password', PasswordType::class, ['label'=>false, 'attr'=>['placeholder'=>'Enter your Password']])
+            ->add('confirmPassword', PasswordType::class, ['label'=>false, 'attr'=>['placeholder'=>'Confirm your Password']])
+            ->add('submit', SubmitType::class, ['label'=>'Sign In', 'attr'=>['class'=>'btn btn-success col-8 d-block mx-auto']])
+
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
+    }
+}
