@@ -30,8 +30,6 @@ class RegisterController extends AbstractController
 
         $user = new User();
 
-
-
         $form = $this->createForm(RegisterType::class, $user);
 
         //dump($user);
@@ -40,6 +38,7 @@ class RegisterController extends AbstractController
         //dd($user);
 
         if($form->isSubmitted() && $form->isValid()) {
+            
 
             //On recupère le password non codé:
             //$plaintextPassword = $user->getPassword();
@@ -57,6 +56,19 @@ class RegisterController extends AbstractController
 
             //écrit dans la BD
             $this->manager->flush();
+            
+        $this->addFlash(
+            'success',
+            'Your account '.$user->getEmail().' was successfully created! :)'
+        );
+
+        // $this->addFlash(
+        //     'info',
+        //     'Holy guacamole! Check your infos!'
+        // );
+
+        return $this->redirectToRoute('app_login');
+        
 
         }
 
