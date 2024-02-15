@@ -41,12 +41,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         match: true,
         message: 'Your Password need to be at least 8 characters long.',
     )]
+
     private ?string $password = null;
-    // #[Assert\EqualTo(
-    //     propertyPath: 'password',
-    //     message: 'The passwords don\'t match'
-    // )]
+     #[Assert\EqualTo(
+         propertyPath: 'password',
+         message: 'The passwords don\'t match'
+     )]
     public $confirmPassword;
+    
+    private $oldPassword;
+/*[Assert\notBlank]*/ 
+    /*#[Assert\Regex(
+        pattern: '#(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}#',
+        match: true,
+        message: 'Your Password need to be at least 8 characters long.',
+    )]*/
+    private $newPassword;
 
     #[ORM\Column(length: 255)]
     
@@ -66,6 +76,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Your last name must be at least {{ limit }} characters long',
         maxMessage: 'Your last name cannot be longer than {{ limit }} characters',
     )]
+
+    
     private ?string $lastName = null;
 
     #[ORM\Column]
@@ -176,5 +188,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->birthDay = $birthDay;
 
         return $this;
+    }
+
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+    
+        public function setNewPassword()
+    {
+        return $this->newPassword;
     }
 }
