@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +21,7 @@ class RegisterController extends AbstractController
     public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager)
     {
         $this->passwordHasher = $passwordHasher;
-        $this->manager= $manager;
+        $this->manager = $manager;
     }
     #[Route('/inscription', name: 'register')]
     public function index(Request $request): Response
@@ -37,14 +36,19 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
         //dd($user);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            
+        if ($form->isSubmitted() && $form->isValid()) {
+
 
             //On recupère le password non codé:
             //$plaintextPassword = $user->getPassword();
 
             // hash the password (based on the security.yaml config for the $user class)
-        
+            $user->setPassword(
+                $this->passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
 
 
             //persiste les données dans le temps
@@ -52,24 +56,22 @@ class RegisterController extends AbstractController
 
             //écrit dans la BD
             $this->manager->flush();
-            
-        $this->addFlash(
-            'success',
-            'Your account '.$user->getEmail().' was successfully created! :)'
-        );
 
-        // $this->addFlash(
-        //     'info',
-        //     'Holy guacamole! Check your infos!'
-        // );
+            $this->addFlash(
+                'success',
+                'Your account ' . $user->getEmail() . ' was successfully created! :)'
+            );
 
-        return $this->redirectToRoute('app_login');
-        
+            // $this->addFlash(
+            //     'info',
+            //     'Holy guacamole! Check your infos!'
+            // );
 
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('register/register.html.twig', [
-           'form' => $form->createView()
+            'form' => $form->createView()
         ]);
     }
 }
