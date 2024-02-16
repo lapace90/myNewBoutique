@@ -23,7 +23,7 @@ class ChangePasswordType extends AbstractType
             //->add('birthDay')
             ->add('oldPassword', PasswordType::class, ['required' => true, 'label' => false, 'attr' => ['placeholder' => 'Enter your old Password, please.']])
             ->add('newPassword', PasswordType::class, ['required' => true, 'label' => false, 'attr' => ['placeholder' => 'Enter your new Password, please.']])
-            ->add('confirmPassword', PasswordType::class, ['required' => true, 'label' => false, 'attr' => ['placeholder' => 'Confirm your new Password']])
+            ->add('confirmNewPassword', PasswordType::class, ['required' => true, 'label' => false, 'attr' => ['placeholder' => 'Confirm your new Password']])
             ->add('submit', SubmitType::class, ['label' => 'Sign In', 'attr' => ['class' => 'btn btn-success col-8 d-block mx-auto']]);
 
     

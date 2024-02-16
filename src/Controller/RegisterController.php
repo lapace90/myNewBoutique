@@ -44,11 +44,7 @@ class RegisterController extends AbstractController
             //$plaintextPassword = $user->getPassword();
 
             // hash the password (based on the security.yaml config for the $user class)
-        $hashedPassword = $this->passwordHasher->hashPassword(
-            $user,
-            $user->getPassword()
-        );
-        $user->setPassword($hashedPassword);
+        
 
 
             //persiste les données dans le temps
