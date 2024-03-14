@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{product.name}}
+{% endblock %}
+{% block content %}
+	<h1 class="mt-3">{{product.name}}</h1>
+
+	<div class="row">
+		<div class="col-md-5">
+			<img src="{{product.picture}}" alt="{{product.name}}" class=" img-fluid img-thumbnail rounded">
+		</div>
+		<div class="col-md-7">
+			<h3>{{product.name}}</h3>
+			<p>{{product.subtitle}}</p>
+			<b>{{product.price/10}}€</b>
+			<hr>
+			<p>{{product.description |raw}}</p>
+		</div>
+
+	</div>
+{% endblock %}

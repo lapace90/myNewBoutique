@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block title %}Our Products - My New Boutique
+{% endblock %}
+{% block content %}
+	<h1 class="mt-3">Our Products</h1>
+
+	<div class="row">
+
+		<div class="col-md-3">
+			Filters
+		</div>
+
+		<div class="col-md-9">
+			<div class="row row-cols-1 row-cols-md-3 g-4">
+				{% for product in products %}
+					<div class="col-md-3 mt-3">
+						<a href="{{path('product', {'slug':product.slug})}}"><img src="{{product.picture}}" alt="{{product.name}}" class="img-fluid img-thumbnail rounded"></a>
+						<div class="card product-item text-center">
+							<h5 style="font-weight:bold">{{product.name}}</h5>
+							<div>{{product.subtitle}}
+							</div>
+							<div style="font-weight:bold">{{(product.price/10) | number_format(2)}}
+								€</div>
+							<div>Catégorie:
+								{{product.category.name}}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

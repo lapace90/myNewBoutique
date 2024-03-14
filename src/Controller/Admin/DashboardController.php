@@ -2,13 +2,15 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Category;
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Product;
+use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -43,7 +45,12 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fas fa-home');
+        yield MenuItem::section('Admin');
+        yield MenuItem::linkToCrud('Admin', 'fas fa-users', User::class)->setController(AdminUserCrudController::class);
+        yield MenuItem::section('User');
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
+        yield MenuItem::section('Commandes');
         yield MenuItem::linkToCrud('Categories', 'fas fa-folder', Category::class);
+        yield MenuItem::linkToCrud('Produits', 'fas fa-tags', Product::class);
     }
 }
