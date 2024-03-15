@@ -8,11 +8,17 @@
 
 		<div class="col-md-3">
 			Filters
+			{{ form_start(form) }}
+			{{ form_end(form)}}
 		</div>
 
 		<div class="col-md-9">
+			{% if products is empty %}
+				<div class="alert alert-danger">There is any product for this category</div>
+			{% endif %}
 			<div class="row row-cols-1 row-cols-md-3 g-4">
 				{% for product in products %}
+
 					<div class="col-md-3 mt-3">
 						<a href="{{path('product', {'slug':product.slug})}}"><img src="{{product.picture}}" alt="{{product.name}}" class="img-fluid img-thumbnail rounded"></a>
 						<div class="card product-item text-center">
