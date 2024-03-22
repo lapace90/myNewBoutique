@@ -20,7 +20,7 @@ class Category
     private ?string $name = null;
     
 
-    #[ORM\OneToMany(mappedBy: 'Category', targetEntity: Product::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
 
     #[ORM\Column(type: Types::TEXT)]

@@ -37,7 +37,7 @@ class ProductController extends AbstractController
                 $products = $repo->findAll();
             }
 
-            //dd($search->getCategories());
+            // dd($search->getCategories());
 
             if (!$products) {
                 $error = "There is any product";

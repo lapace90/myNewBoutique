@@ -16,6 +16,6 @@
 			<hr>
 			<p>{{product.description |raw}}</p>
 		</div>
-
+<a href="{{path('add_to_cart',{'id':product.id})}}" class="btn btn-primary">Add to your cart</a>
 	</div>
 {% endblock %}
