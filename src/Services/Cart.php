@@ -68,10 +68,16 @@ class Cart
         $cartData = [];
         foreach($cart as $id => $quantity) {
             $product = $this->eManager->getRepository(Product::class)->findOneBy(['id'=>$id]);
-            $cartData[] = [
-                'product' => $product,
-                'quantity' => $quantity
-            ];
+            if($product){
+                $cartData[] = [
+                    'product' => $product,
+                    'quantity' => $quantity
+                ];
+            } else {
+                // Gestisci il caso in cui il prodotto non sia trovato nel database
+            // Puoi anche rimuovere l'elemento dal carrello se desideri
+            }
+         
         }
         return $cartData;
     }

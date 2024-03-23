@@ -2,61 +2,57 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\SearchFilters;
 use App\Form\SearchFilterType;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
     #[Route('/our-products', name: 'products')]
     public function index(ProductRepository $repo, Request $request): Response
     {
-
-
         $search = new SearchFilters();
         $form = $this->createForm(SearchFilterType::class, $search);
         $form->handleRequest($request);
         $error = null;
-
+        //$products = $repo->findByName("Product's name");
+    
         if ($form->isSubmitted() && $form->isValid()) {
             if (count($search->getCategories())) {
+                $categoryIds = [];
                 foreach ($search->getCategories() as $category) {
-
-                    $tabId[] = $category->getId();
+                    $categoryIds[] = $category->getId();
                 }
-                // $id = $search->getCategories();
-                $products = $repo->findBy(['Category' => $tabId]);
+                $products = $repo->findBy(['Category' => $categoryIds]);
             } else {
-                $products = $repo->findAll();
+                $products = $repo->findByFilters($search);
             }
-
-            // dd($search->getCategories());
-
+    
             if (!$products) {
-                $error = "There is any product";
+                $error = "There are no products matching the selected criteria.";
             }
         } else {
+            // Se il form non è stato inviato o non è valido, mostra tutti i prodotti
             $products = $repo->findAll();
         }
 
+    
         return $this->render('product/products.html.twig', [
             'products' => $products,
             'form' => $form->createView(),
             'error' => $error,
         ]);
     }
+    
 
     #[Route('/product/{slug}', name: 'product')]
     public function product(Product $product): Response
     {
-        //dd($product);
         return $this->render('product/oneProduct.html.twig', [
             'product' => $product
         ]);

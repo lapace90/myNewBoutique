@@ -25,3 +25,5 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 }
+
+//Sto creando 10 categorie vuote qui e altre 10 con i prodotti in ProductFixture.php

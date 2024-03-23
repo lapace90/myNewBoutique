@@ -14,7 +14,7 @@
 
 		<div class="col-md-9">
 			{% if products is empty %}
-				<div class="alert alert-danger">There is any product for this category</div>
+				<div class="alert alert-danger">There are no products matching the selected criteria.</div>
 			{% endif %}
 			<div class="row row-cols-1 row-cols-md-3 g-4">
 				{% for product in products %}
@@ -23,9 +23,9 @@
 						<a href="{{path('product', {'slug':product.slug})}}"><img src="{{product.picture}}" alt="{{product.name}}" class="img-fluid img-thumbnail rounded"></a>
 						<div class="card product-item text-center">
 							<h5 style="font-weight:bold">{{product.name}}</h5>
-							<div>{{product.subtitle}}
+							<div class="text text-muted">{{product.subtitle}}
 							</div>
-							<div style="font-weight:bold">{{(product.price/10) | number_format(2)}}
+							<div style="font-weight:bold">{{(product.price/100) | number_format(2)}}
 								€</div>
 							<div>Type:
 								{{product.category.name}}
