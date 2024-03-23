@@ -29,9 +29,10 @@
                         <td><img src="{{ product.picture }}" alt="{{ product.name }}" style="height: 90px;"></td>
                         <td>{{ product.name }}</td>
                         <td>
-                            {# <a href="{{ path('decrease_to_cart', {'id': item.product.id}) }}"><i class="fa-solid fa-circle-minus"></i></a> #}
+                            <a class="btn btn-icon fs-xl" data-decrement href="{{ path('decrease_item', {'id': item.product.id}) }}"><i class="fa-solid fa-circle-minus">-</i></a>
                             {{ quantity }}
-                            <a href="{{ path('add_to_cart', {'id': item.product.id}) }}"><i class="fa-solid fa-circle-plus"></i></a>
+                           
+                            <a class="btn btn-icon fs-xl" data-increment href="{{ path('add_to_cart', {'id': item.product.id}) }}"><i class="fa-solid fa-circle-plus">+</i></a>
                         </td>
                         <td>{{ product.price/100 }}€</td>
                         <td>{{ (quantity * product.price/100)|number_format(2) }}€</td>
@@ -39,9 +40,6 @@
                         <div class="nav justify-content-end mt-n5 mt-sm-n3">
                          <a class="nav-link fs-xl p-2" href="{{path('delete_product', {id: item.product.id}) }}" data-bs-toggle="tooltip" title="Remove product" ><i class="fas fa-trash-alt"></i></a>
                          </div>
-                            {# <a href="{{ path('delete_to_cart', {'id': item.product.id}) }}" class="btn btn-danger">
-                                <i class="fas fa-trash-alt"></i>
-                            </a> #}
                         </td>
                     </tr>
                     {% set total = total + (quantity * product.price) %}
@@ -52,8 +50,9 @@
             <b>N° of products: {{ cart|length }}</b><hr>
             <b>Total: {{ total/100|number_format(2) }}€</b><hr>
             <a href="#" class="btn btn-success col-12">Validate my purchase</a>
+            <br>
            
-            {# <a class="nav-link fs-xl p-2" href="{{path('purge-cart') }}" data-bs-toggle="tooltip" title="Remove All" ><i class="ai-trash"></i></a> #}
+            <a class="btn btn-danger col-4" href="{{path('purge-cart') }}" data-bs-toggle="tooltip" title="Remove All" style="margin-top:20px" ><i class="ai-trash"></i>Empty my cart</a>
             
         </div>
     {% else %}

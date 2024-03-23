@@ -33,6 +33,16 @@ class Cart
         $this->getSession()->set('cart', $cart);
     }
 
+    public function decrease(int $id) {
+        $cart = $this->requestStack->getSession()->get('cart', []);
+        if ($cart[$id]>1) {
+            $cart[$id]--;
+        } else {
+            unset($cart[$id]);
+        }
+        $this->getSession()->set('cart', $cart);
+    }
+
     public function removeProduct(int $id): Response
      {
         $cart = $this->requestStack->getSession()->get('cart', []);

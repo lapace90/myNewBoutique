@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CartController extends AbstractController
 {
@@ -36,6 +37,14 @@ class CartController extends AbstractController
     {
         // dd($cart);
         $cart->removeProduct($id);
+        return $this->redirectToRoute('my_cart');
+    }
+
+    #[Route(path: '/my-cart/decrease/{id}', name: 'decrease_item')]
+    public function decrease(int $id, Cart $cart): RedirectResponse
+    {
+        // dd($cart);
+        $cart->decrease($id);
         return $this->redirectToRoute('my_cart');
     }
 
