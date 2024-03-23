@@ -3,12 +3,10 @@
 namespace App\Services;
 
 use App\Entity\Product;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Flex\Response as FlexResponse;
 
 class Cart
 {
@@ -51,19 +49,25 @@ class Cart
         return new Response('Product removed successfully');
     }
 
-    public function removeAll(){
-        return $this->getSession()->remove('cart');
+    public function removeAll(): Response
+{
+    $session = $this->getSession();
+    if ($session->has('cart')) {
+        $session->remove('cart');
+        return new Response('Cart cleared successfully');
+    } else {
+        return new Response('Cart is already empty');
     }
+}
 
     public function getTotal() {
         $cart = $this->getSession()->get('cart');
+        if (!$cart || empty($cart)) {
+           return []; 
+        }
         $cartData = [];
         foreach($cart as $id => $quantity) {
             $product = $this->eManager->getRepository(Product::class)->findOneBy(['id'=>$id]);
-            if(!$product) {
-                //Supprimer le produit puis continuer en sortant de la boucle
-
-            }
             $cartData[] = [
                 'product' => $product,
                 'quantity' => $quantity

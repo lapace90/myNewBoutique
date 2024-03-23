@@ -7,7 +7,7 @@
     <p class="text-sm-end fst-italic">Continue shopping <a href="{{path('products')}}">here</a> and come back later to validate your cart</p>
     <h3>All my products</h3>
     <hr>
-{# {{ dump(cart) }} #}
+{{ dump(cart) }}
     {% if cart|length > 0 %}
         <table class="table">
             <thead>
