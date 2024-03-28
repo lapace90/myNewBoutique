@@ -23,6 +23,7 @@ class ProductController extends AbstractController
         //$products = $repo->findByName("Product's name");
     
         if ($form->isSubmitted() && $form->isValid()) {
+            // Questa if (count(..)) è da togliere. Il filtro per le categorie deve stare dentro $repo->findByFilter()
             if (count($search->getCategories())) {
                 $categoryIds = [];
                 foreach ($search->getCategories() as $category) {
@@ -31,6 +32,8 @@ class ProductController extends AbstractController
                 $products = $repo->findBy(['Category' => $categoryIds]);
             } else {
                 $products = $repo->findByFilters($search);
+                // dump($products);
+                // dd('ciao');
             }
     
             if (!$products) {

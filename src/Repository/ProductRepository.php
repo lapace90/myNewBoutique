@@ -25,33 +25,40 @@ class ProductRepository extends ServiceEntityRepository
    /**
     * @return Product[] Returns an array of Product objects
     */
-    public function findByFilters(SearchFilters $searchFilters)
-        {
+    public function findByFilters(SearchFilters $searchFilters) {
         $qb = $this->createQueryBuilder('p');
-
+        dump($searchFilters);
         if ($searchFilters->getName()) {
+            dump($searchFilters->getName());
             $qb->andWhere('p.name LIKE :name')
-            ->setParameter('name', '%' . $searchFilters->getName() . '%');
+            ->setParameter('name', '%'. $searchFilters->getName() .'%');
         }
 
         if ($searchFilters->getMinPrice()) {
+            // dump($searchFilters->getMinPrice());
             $qb->andWhere('p.Price >= :minPrice')
             ->setParameter('minPrice', $searchFilters->getMinPrice());
         }
 
         if ($searchFilters->getMaxPrice()) {
+            // dump($searchFilters->getMaxPrice());
             $qb->andWhere('p.Price <= :maxPrice')
             ->setParameter('maxPrice', $searchFilters->getMaxPrice());
         }
 
-        // Filter by categories if applicable
-        if ($searchFilters->getCategories()) {
-            $qb->andWhere('p.Category IN (:categories)')
-            ->setParameter('categories', $searchFilters->getCategories());
+        if (count($searchFilters->getCategories())) {
+            // fare join con categories table e product table
+            $qb->andWhere('p.category_id IN (:categories)')
+            ->setParameter('categories', $searchFilters->getCategories()); // pippo, caio 
+            // pippo = 3
+            // caio = 5
         }
 
+        // dump($qb->getQuery()->getSQL());
+        // dump($qb->getQuery()->getParameters());
+        // dump($qb->getQuery()->getResult());
         return $qb->getQuery()->getResult();
-        }
+    }
 }
 //    public function findOneBySomeField($value): ?Product
 //    {
