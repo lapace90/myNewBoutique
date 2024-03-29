@@ -50,7 +50,7 @@ class CartController extends AbstractController
     {
         // dd($cart);
         $cart->removeAll();
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('my_cart');
     }
 
 //     #[Route(path: '/cart/delete/{id}', name: 'delete_to_cart')]

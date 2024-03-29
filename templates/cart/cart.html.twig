@@ -1,61 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon panier{% endblock %}
+{% block title %}My shopping cart
+{% endblock %}
 
 {% block content %}
-    <h1 class="mt-3">My cart</h1>
-    <p class="text-sm-end fst-italic">Continue shopping <a href="{{path('products')}}">here</a> and come back later to validate your cart</p>
-    <h3>All my products</h3>
-    <hr>
-{{ dump(cart) }}
-    {% if cart|length > 0 %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Products</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% set total = 0 %}
-                {% for item in cart %}
-                    {% set product = item.product %}
-                    {% set quantity = item.quantity %}
-                    <tr>
-                        <td><img src="{{ product.picture }}" alt="{{ product.name }}" style="height: 90px;"></td>
-                        <td>{{ product.name }}</td>
-                        <td>
-                            <a class="btn btn-icon fs-xl" data-decrement href="{{ path('decrease_item', {'id': item.product.id}) }}"><i class="fa-solid fa-circle-minus">-</i></a>
-                            {{ quantity }}
-                           
-                            <a class="btn btn-icon fs-xl" data-increment href="{{ path('add_to_cart', {'id': item.product.id}) }}"><i class="fa-solid fa-circle-plus">+</i></a>
-                        </td>
-                        <td>{{ product.price/100 }}€</td>
-                        <td>{{ (quantity * product.price/100)|number_format(2) }}€</td>
-                        <td>
-                        <div class="nav justify-content-end mt-n5 mt-sm-n3">
-                         <a class="nav-link fs-xl p-2" href="{{path('delete_product', {id: item.product.id}) }}" data-bs-toggle="tooltip" title="Remove product" ><i class="fas fa-trash-alt"></i></a>
-                         </div>
-                        </td>
-                    </tr>
-                    {% set total = total + (quantity * product.price) %}
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="text-end">
-            <b>N° of products: {{ cart|length }}</b><hr>
-            <b>Total: {{ total/100|number_format(2) }}€</b><hr>
-            <a href="#" class="btn btn-success col-12">Validate my purchase</a>
-            <br>
-           
-            <a class="btn btn-danger col-4" href="{{path('purge-cart') }}" data-bs-toggle="tooltip" title="Remove All" style="margin-top:20px" ><i class="ai-trash"></i>Empty my cart</a>
-            
-        </div>
-    {% else %}
-        <p><b>Your cart is empty</b></p>
-    {% endif %}
+	<h1 class="mt-3">My cart</h1>
+	<h3>All my products</h3>
+	
+	{# {{ dump(cart) }} #}
+	{% if cart|length > 0 %}
+	<p class="text-sm-end fst-italic">Continue shopping
+		<a href="{{path('products')}}">here</a>
+		and come back later to validate your cart</p><hr>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Products</th>
+					<th scope="col">Name</th>
+					<th scope="col">Quantity</th>
+					<th scope="col">Price</th>
+					<th scope="col">Total</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set total = 0 %}
+				{% set totalQuantity = 0 %}
+				{% for item in cart %}
+					{% set product = item.product %}
+					{% set quantity = item.quantity %}
+					<tr>
+						<td><img src="{{ product.picture }}" alt="{{ product.name }}" style="height: 90px;"></td>
+						<td>{{ product.name }}</td>
+						<td>
+							<a data-decrement href="{{ path('decrease_item', {'id': item.product.id}) }}" class="text-decoration-none">
+								<i class="fas fa-minus-circle"></i>
+							</a>
+							{{ quantity }}
+
+							<a data-increment href="{{ path('add_to_cart', {'id': item.product.id}) }}">
+								<i class="fas fa-plus-circle"></i>
+							</a>
+						</td>
+						<td>{{ product.price/100 }}€</td>
+						<td>{{ (quantity * product.price/100)|number_format(2) }}€</td>
+						<td>
+							<div class="nav justify-content-end">
+								<a class="nav-link" href="{{path('delete_product', {id: item.product.id}) }}" data-bs-toggle="tooltip" title="Remove product">
+									<i class="fas fa-trash-alt"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+					{% set totalQuantity = totalQuantity + (quantity * product|length) %}
+					{% set total = total + (quantity * product.price/100) %}
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-end">
+			<b>N° of products:
+				{{ totalQuantity }}</b><hr>
+
+			<b>Total:
+				{{ total|number_format(2) }}€</b><hr>
+			<a href="#" class="btn btn-success col-12">Validate my purchase</a>
+			<br>
+
+			<a class="btn btn-danger col-4" href="{{path('purge-cart') }}" data-bs-toggle="tooltip" title="Remove All" style="margin-top:20px">
+				<i class="ai-trash"></i>Empty my cart</a>
+
+		</div>
+	{% else %}
+	<p class="text-sm-end fst-italic">Continue shopping
+		<a href="{{path('products')}}">here</a>
+		and come back later</p>
+		<p><hr>
+		<img src="uploads\emptycart.png" alt="empty cart image" style="height:60vh">
+			<b class="justify-self-end">Your cart is empty</b>
+		</p>
+	{% endif %}
 {% endblock %}
+

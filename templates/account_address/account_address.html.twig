@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Addresses - My PinkKiwi Boutique
+{% endblock %}
+
+{% block content %}
+
+	<h1>Manage your addresses</h1>
+	<hr>
+
+	<div class="">
+		<img src="\uploads\address.png" alt="logo address" class="col-md-6 float-md-start mb-3 ms-md-3">
+		<a style="margin: 10px" href="{{path('add_address')}}" class="btn btn-primary col-3 mx-auto">Add a new address</a><br>
+		<a style="margin: 10px" href="{{path('address_list')}}" class="btn btn-primary col-3 mx-auto">Saved addresses</a><br>
+	</div>
+
+
+{% endblock %}
