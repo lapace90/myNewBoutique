@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Services\Cart;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class AccountAddressController extends AbstractController
 {
@@ -72,11 +73,20 @@ class AccountAddressController extends AbstractController
     }
 
     #[Route('/account/add_address', name: 'add_address')]
-    public function add(Request $request, EntityManagerInterface $manager): Response
+    public function add(Request $request, EntityManagerInterface $manager, Cart $cart): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
+
+        // if ($cart->getAddresses()) {
+        //     return $this->redirectToRoute('order');
+        //     }
+        //     // sinon on va vers la gestion des adresses
+        //     else {
+        //     // on retourne vers l'accueil
+        //     return $this->redirectToRoute('account_address');
+        //     }
 
         if ($form->isSubmitted() && $form->isValid()) {
 

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Faker\Provider\fr_FR\Address;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -66,7 +67,7 @@ class AddressType extends AbstractType
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Country',
-                'preferred_choice' => ['FR'],
+                // 'preferred_choice' => ['FR'],
                 'attr' => [
                     'placeHolder' => "Enter your country"
                 ]
@@ -91,6 +92,7 @@ class AddressType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            // 'data_class' => Address::class,
         ]);
     }
 }

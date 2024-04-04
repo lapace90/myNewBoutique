@@ -63,7 +63,7 @@
 
 			<b>Total:
 				{{ total|number_format(2) }}€</b><hr>
-			<a href="#" class="btn btn-success col-12">Validate my purchase</a>
+			<a href="{{path('order')}}" class="btn btn-success col-12">Validate my purchase</a>
 			<br>
 
 			<a class="btn btn-danger col-4" href="{{path('purge-cart') }}" data-bs-toggle="tooltip" title="Remove All" style="margin-top:20px">
