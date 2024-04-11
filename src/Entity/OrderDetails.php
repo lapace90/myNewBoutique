@@ -79,4 +79,12 @@ class OrderDetails
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $order = $this->getMyOrder();
+        
+        // Si la commande ou les produits ne sont pas disponibles, utilisez simplement l'ID de la commande
+        return 'Détail de la commande ' . $this->getId();
+    }
 }
