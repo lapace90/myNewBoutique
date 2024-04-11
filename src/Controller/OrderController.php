@@ -51,7 +51,7 @@ class OrderController extends AbstractController
             $date = $date->format('dmY');
             $order = new Order();
             $order->setUser($this->getUser());
-            $order->setCreatedAt($date);
+            $order->setCreatedAt(new \DateTime());
             $order->setCarrier($form->get('transporteurs')->getData());
             $order->setDelivery($form->get('addresses')->getData());
             $order->setStatut(0);
@@ -70,12 +70,12 @@ class OrderController extends AbstractController
             
             $manager->flush();
             
-            return $this->render('order/recap.html.twig', [
+            return $this->render('order/order/recap.html.twig', [
                 'cart' => $cartComplete,
                 'order' => $order,
             ]);
         }
-        return $this->render('order/index.html.twig', [
+        return $this->render('order/order/order.html.twig', [
             'form' => $form->createView(),
             'cart' => $cartComplete,
         ]);

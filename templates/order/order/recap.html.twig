@@ -23,7 +23,7 @@
     {% set total= total + product.product.price * product.quantity %}
         <div class="row mt-3">
             <div class="col-2">
-                <img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" class="img-fluid">
+                <img src="{{product.product.picture}}" alt="{{product.product.name}}" class="img-fluid">
             </div>
             <div class="col-8">
                 {{product.product.name}}<br>
