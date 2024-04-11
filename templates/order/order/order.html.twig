@@ -13,8 +13,25 @@
 {{ formHTML|replace({'[br]': '<br>'})|raw }}
 </div>
 <div class="col-md-6">
-<b>Recap de ma commande</b><br>
-<b>bouton pour payer</b>
-</div>
-</div>
+			<b>Recap de ma commande</b>
+			{% for product in cart %}
+				<div class="row mt-3">
+					<h3></h3><br>
+					<div class="col-2">
+						<img src="/uploads/{{product.product.illustration}}" alt="{{product.product.name}}" class="img-fluid">
+					</div>
+					<div class="col-2">
+						<strong>{{product.product.name}}</strong><br>
+						<i>{{product.product.subtitle}}</i><br>
+					</div>
+					<div class="col-2">
+						<b>{{(product.product.price / 100) | number_format(2)}}</b><br>
+					</div>
+					<div class="col-2">
+						<i>{{product.quantity}}</i>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

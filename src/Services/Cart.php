@@ -30,6 +30,10 @@ class Cart
         }
         $this->getSession()->set('cart', $cart);
     }
+    public function get()
+    {
+        return $this->requestStack->getSession()->get('cart', []);
+    }
 
     public function decrease(int $id) {
         $cart = $this->requestStack->getSession()->get('cart', []);
