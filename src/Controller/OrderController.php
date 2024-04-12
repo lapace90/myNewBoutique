@@ -115,6 +115,7 @@ class OrderController extends AbstractController
             return $this->render('order/order/recap.html.twig', [
                 'cart' => $cartComplete,
                 'order' => $order,
+                'stripe_checkout_session' => $checkout_session->url
             ]);
         }
         return $this->render('order/order/order.html.twig', [

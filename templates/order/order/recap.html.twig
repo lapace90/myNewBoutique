@@ -42,8 +42,8 @@
         <strong>Livraison :{{ (order.carrier.price / 100) | number_format(2) }}€</strong>
         <hr>
         <strong>Total :{{ (total/100 + order.carrier.price / 100) | number_format(2) }}€</strong>
-        <a href="{{stripe_checkout_session}}" class="btn btn-success col-12 mt-3">Payer
-        {{total/100 + carrier.price | number_format(2) }}
+        <a href="{{ stripe_checkout_session }}" class="btn btn-success col-12 mt-3">Payer
+        {{total/100 + order.carrier.price | number_format(2) }}
         €</a>
     </div>
 </div>

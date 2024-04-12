@@ -16,7 +16,8 @@ class OrderSuccessController extends AbstractController
     public function index(Order $order, EntityManagerInterface $manager, Cart $cart, $stripeSessionId): Response
     {
         if (!$order || $order->getUser() != $this->getUser()) return $this->redirectToRoute('home');
-        
+
+        $stripeSessionId = '{CHECKOUT_SESSION_ID}';
         $stripeSecretKey = $this->getParameter('STRIPE_KEY');
         $stripe = new StripeClient($stripeSecretKey);
         $session = $stripe->checkout->sessions->retrieve($stripeSessionId);
