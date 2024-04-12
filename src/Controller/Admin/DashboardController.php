@@ -85,3 +85,4 @@ class DashboardController extends AbstractDashboardController
 
 // Clé secrète: sk_test_51P4K8zDYaTAdF4YukfzjwEbK1oqutC6WaAzs1tmlBzVXND8rNNDnIrEQKOZXJxuN1NshXeCYQ4Xz7Ofv6bOJdbuT00XnnDWMbf
 // Clé publique: pk_test_51P4K8zDYaTAdF4Yur8AUOEvRhcoGgujvLFoHdpNFeCO87ZmPkYRg0yMFVCm2nTh6JX437hJrG2fqVek1yU5j4VTG00gVsQNZSn
+// price_1P4ic6DYaTAdF4Yu8Yao0zGx vélo 100$
