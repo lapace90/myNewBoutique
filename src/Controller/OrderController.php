@@ -26,12 +26,12 @@ class OrderController extends AbstractController
     {
 
 
-        
+
         if (!$user->getAddresses()->getValues()) {
             return $this->redirectToRoute('account_address_add');
         }
-        
-        
+
+
         $cart = $cart->get();
         $cartComplete = [];
         foreach ($cart as $id => $quantity) {
@@ -40,15 +40,15 @@ class OrderController extends AbstractController
                 'quantity' => $quantity,
             ];
         }
-        
+
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
         $form->handleRequest($request);
-        
+
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $date = new \DateTime();
             $date = $date->format('dmY');
             $order = new Order();
@@ -57,7 +57,7 @@ class OrderController extends AbstractController
             $order->setCarrier($form->get('transporteurs')->getData());
             $order->setDelivery($form->get('addresses')->getData());
             $order->setStatut(0);
-            
+
             $order->setReference($date . '-' . uniqid());
             $manager->persist($order); // Enregistrer mes produit OrderDetails 
             //dump($cartComplete); 
@@ -70,35 +70,35 @@ class OrderController extends AbstractController
                 $manager->persist($orderDetails);
 
                 $stripe_products[] = [
-                    'price_data' =>[
-                        'currency'=>'eur',
-                        'product_data'=>[
-                            'name'=> $product['product']->getName(),
-                            'images'=>[
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $product['product']->getName(),
+                            'images' => [
                                 $product['product']->getPicture()
                                 //$_SERVER['HTTP_ORIGIN'] . '/uploads' . $product['product']->getPicture()
                             ]
-                            ],
-                        'unit_amount'=> $product['product']->getPrice(),
                         ],
-                        'quantity'=>$product['quantity'],
+                        'unit_amount' => $product['product']->getPrice(),
+                    ],
+                    'quantity' => $product['quantity'],
                 ];
                 $stripe_products[] = [
-                    'price_data' =>[
-                        'currency'=>'eur',
-                        'product_data'=>[
-                            'name'=> $order->getCarrier()->getName(),
-                            ],
-                        'unit_amount'=>$order->getCarrier()->getPrice(),
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $order->getCarrier()->getName(),
                         ],
-                        'quantity'=>1,
+                        'unit_amount' => $order->getCarrier()->getPrice(),
+                    ],
+                    'quantity' => 1,
                 ];
             }
 
 
             $YOUR_DOMAIN = $_SERVER['HTTP_ORIGIN'];
             $stripeSecretKey = $this->getParameter('STRIPE_KEY');
-            
+
             Stripe::setApiKey($stripeSecretKey);
 
             $checkout_session = Session::create([
@@ -106,12 +106,12 @@ class OrderController extends AbstractController
                 'mode' => 'payment',
                 'success_url' => $YOUR_DOMAIN . '/account/order/thanks/{CHECKOUT_SESSION_ID}',
                 'cancel_url' => $YOUR_DOMAIN . '/account/order/error/{CHECKOUT_SESSION_ID}',
-              ]);
-              $order->setStripeSessionId($checkout_session->id);
+            ]);
+            $order->setStripeSessionId($checkout_session->id);
 
             //dd($checkout_session->url);
-            //$manager->flush();
-            
+            $manager->flush();
+
             return $this->render('order/order/recap.html.twig', [
                 'cart' => $cartComplete,
                 'order' => $order,

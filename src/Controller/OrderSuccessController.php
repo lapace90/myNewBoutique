@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 
-use App\Services\Cart;
 use App\Entity\Order;
+use App\Services\Cart;
 use Stripe\StripeClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,12 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderSuccessController extends AbstractController
 {
-    #[Route('/account/order/thanks/{CHECKOUT_SESSION_ID}', name: 'order_success')]
+    #[Route('/account/order/thanks/{stripeSessionId}', name: 'order_success')]
     public function index(Order $order, EntityManagerInterface $manager, Cart $cart, $stripeSessionId): Response
     {
+
         if (!$order || $order->getUser() != $this->getUser()) return $this->redirectToRoute('home');
 
-        $stripeSessionId = '{CHECKOUT_SESSION_ID}';
         $stripeSecretKey = $this->getParameter('STRIPE_KEY');
         $stripe = new StripeClient($stripeSecretKey);
         $session = $stripe->checkout->sessions->retrieve($stripeSessionId);
@@ -31,12 +31,15 @@ class OrderSuccessController extends AbstractController
         // vider la session cart (le panier)
         $cart->removeAll();
         $order->setStatut(1);
-        //$manager->flush();
+        $manager->flush();
         }
         // envoyer un email
 
+
         return $this->render('order_success/index.html.twig', [
-            'order' => $order
+          'total'=>$session->amount_total,
+          'order' => $order,
+
         ]);
     }
 }
