@@ -2,35 +2,36 @@
 
 namespace App\Controller;
 
-use Stripe\Stripe;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Services\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderDetails;
-use Stripe\Checkout\Session;
+use App\Services\StripeService;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-//TODO: verifier TOUS les commentaires
 class OrderController extends AbstractController
 {
+    private $stripeService;
+
+    public function __construct(StripeService $stripeService)
+    {
+        $this->stripeService = $stripeService;
+    }
+
     #[Route('/order', name: 'order')]
     public function index(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager, Cart $cart, ProductRepository $repo): Response
     {
-
-
-
         if (!$user->getAddresses()->getValues()) {
             return $this->redirectToRoute('account_address_add');
         }
-
 
         $cart = $cart->get();
         $cartComplete = [];
@@ -46,9 +47,7 @@ class OrderController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             $date = new \DateTime();
             $date = $date->format('dmY');
             $order = new Order();
@@ -59,6 +58,7 @@ class OrderController extends AbstractController
             $order->setStatut(0);
 
             $order->setReference($date . '-' . uniqid());
+
             $manager->persist($order); // Enregistrer mes produit OrderDetails 
             //dump($cartComplete); 
             foreach ($cartComplete as $product) {
@@ -68,54 +68,15 @@ class OrderController extends AbstractController
                 $orderDetails->setQuantity($product['quantity']);
                 $orderDetails->setPrice($product['product']->getPrice()); //dump($product); 
                 $manager->persist($orderDetails);
-
-                $stripe_products[] = [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'product_data' => [
-                            'name' => $product['product']->getName(),
-                            'images' => [
-                                $product['product']->getPicture()
-                                //$_SERVER['HTTP_ORIGIN'] . '/uploads' . $product['product']->getPicture()
-                            ]
-                        ],
-                        'unit_amount' => $product['product']->getPrice(),
-                    ],
-                    'quantity' => $product['quantity'],
-                ];
-                $stripe_products[] = [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'product_data' => [
-                            'name' => $order->getCarrier()->getName(),
-                        ],
-                        'unit_amount' => $order->getCarrier()->getPrice(),
-                    ],
-                    'quantity' => 1,
-                ];
             }
-
-
-            $YOUR_DOMAIN = $_SERVER['HTTP_ORIGIN'];
-            $stripeSecretKey = $this->getParameter('STRIPE_KEY');
-
-            Stripe::setApiKey($stripeSecretKey);
-
-            $checkout_session = Session::create([
-                'line_items' => $stripe_products,
-                'mode' => 'payment',
-                'success_url' => $YOUR_DOMAIN . '/account/order/thanks/{CHECKOUT_SESSION_ID}',
-                'cancel_url' => $YOUR_DOMAIN . '/account/order/error/{CHECKOUT_SESSION_ID}',
-            ]);
-            $order->setStripeSessionId($checkout_session->id);
-
-            //dd($checkout_session->url);
+            $checkoutSession = $this->stripeService->createCheckoutSession($cartComplete);
+            $order->setStripeSessionId($checkoutSession->id);
             $manager->flush();
 
             return $this->render('order/order/recap.html.twig', [
-                'cart' => $cartComplete,
-                'order' => $order,
-                'stripe_checkout_session' => $checkout_session->url
+                'order'=> $order,
+                'cart'=> $cartComplete,
+                'url_stripe'=>$checkoutSession->url
             ]);
         }
         return $this->render('order/order/order.html.twig', [
