@@ -27,9 +27,9 @@ class ProductRepository extends ServiceEntityRepository
     */
     public function findByFilters(SearchFilters $searchFilters) {
         $qb = $this->createQueryBuilder('p');
-        dump($searchFilters);
+        //dump($searchFilters);
         if ($searchFilters->getName()) {
-            dump($searchFilters->getName());
+            //dump($searchFilters->getName());
             $qb->andWhere('p.name LIKE :name')
             ->setParameter('name', '%'. $searchFilters->getName() .'%');
         }
@@ -48,7 +48,7 @@ class ProductRepository extends ServiceEntityRepository
             ->orderBy('p.Price', 'DESC');
         }
 
-        if (count($searchFilters->getCategories())) {
+        if (count($searchFilters->getCategories()) >0) {
             // fare join con categories table e product table
             $qb->andWhere('p.category_id IN (:categories)')
             ->setParameter('categories', $searchFilters->getCategories()); // pippo, caio 

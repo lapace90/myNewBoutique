@@ -13,7 +13,8 @@
     <br>
     + <a href="{{path('account_address')}}">Menage my addresses</a>
     + <a href="{{path('account_password')}}"> Edit password </a> <br>
-    + Add an address <br>
+    + <a href="{{path('account_order')}}">My Orders</a>
+    + <a href="{{path('account_order_show',{'reference':order.reference})}}">Voir ma commande</a>
 
 </div>
 {% endblock %}
