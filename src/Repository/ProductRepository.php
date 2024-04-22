@@ -37,13 +37,15 @@ class ProductRepository extends ServiceEntityRepository
         if ($searchFilters->getMinPrice()) {
             // dump($searchFilters->getMinPrice());
             $qb->andWhere('p.Price >= :minPrice')
-            ->setParameter('minPrice', $searchFilters->getMinPrice());
+            ->setParameter('minPrice', $searchFilters->getMinPrice())
+            ->orderBy('p.Price', 'DESC');
         }
 
         if ($searchFilters->getMaxPrice()) {
             // dump($searchFilters->getMaxPrice());
             $qb->andWhere('p.Price <= :maxPrice')
-            ->setParameter('maxPrice', $searchFilters->getMaxPrice());
+            ->setParameter('maxPrice', $searchFilters->getMaxPrice())
+            ->orderBy('p.Price', 'DESC');
         }
 
         if (count($searchFilters->getCategories())) {
@@ -59,6 +61,28 @@ class ProductRepository extends ServiceEntityRepository
         // dump($qb->getQuery()->getResult());
         return $qb->getQuery()->getResult();
     }
+
+    public function MyFindId($id)
+    {
+        //createQueryBuilder('p') =>SELECT p FROM APP\ENTITY\PRODUCT p
+
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.id > :id')
+            ->setParameter('id', $id);
+            // ->orderBy('p.arg', 'ASC')
+            // ->setMaxResults(10)
+            // ->getQuery()
+            // ->getResult();
+
+            //on recupère la requête
+            $query = $queryBuilder->getQuery();
+
+            //on recupère les resultats
+            $result = $query->getOneOrNullResult();
+
+            return $result;
+    }
+
 }
 //    public function findOneBySomeField($value): ?Product
 //    {

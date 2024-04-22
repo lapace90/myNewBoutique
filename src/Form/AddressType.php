@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use Faker\Provider\fr_FR\Address;
+// use Faker\Provider\fr_FR\Address;
+use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

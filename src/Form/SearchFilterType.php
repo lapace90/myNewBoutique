@@ -18,6 +18,8 @@ class SearchFilterType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'class' => Category::class,
+                'multiple' => true,
                 'required' => false,
                 'label' => 'Name',
             ])
