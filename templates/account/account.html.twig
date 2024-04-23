@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{app.user.firstName}}!{% endblock %}
+{% block title %}Hello
+	{{app.user.firstName}}!
+{% endblock %}
 
 {% block content %}
 
-<div class="example-wrapper">
-    <h1 class="mt-4">Hello {{app.user.firstName}} {{app.user.lastName}}! ✅</h1>
+	<div class="example-wrapper">
+		<h1 class="mt-4">Hello
+			{{app.user.firstName}}
+			{{app.user.lastName}}! ✅</h1>
 
-    You can manage your personal informations here:
+		You can manage your personal informations here:
 
+		{% dump(orders)%}
 
-    <br>
-    + <a href="{{path('account_address')}}">Menage my addresses</a>
-    + <a href="{{path('account_password')}}"> Edit password </a> <br>
-    + <a href="{{path('account_order')}}">My Orders</a>
-    + <a href="{{path('account_order_show',{'reference':order.reference})}}">Voir ma commande</a>
-
-</div>
+		<br>
+		+
+		<a href="{{path('account_address')}}">Menage my addresses</a>
+		+
+		<a href="{{path('account_password')}}">
+			Edit password
+		</a>
+		<br>
+		+
+		<a href="{{path('account_order')}}">My Orders</a>
+		
+	</div>
 {% endblock %}

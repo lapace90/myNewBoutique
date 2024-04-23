@@ -6,12 +6,12 @@
 {% block content %}
 	<h1 class="mt-3">My cart</h1>
 	<h3>All my products</h3>
-	
+
 	{# {{ dump(cart) }} #}
 	{% if cart|length > 0 %}
-	<p class="text-sm-end fst-italic">Continue shopping
-		<a href="{{path('products')}}">here</a>
-		and come back later to validate your cart</p><hr>
+		<p class="text-sm-end fst-italic">Continue shopping
+			<a href="{{path('products')}}">here</a>
+			and come back later to validate your cart</p><hr>
 		<table class="table">
 			<thead>
 				<tr>
@@ -42,7 +42,7 @@
 								<i class="fas fa-plus-circle"></i>
 							</a>
 						</td>
-						<td>{{ product.price/100 }}€</td>
+						<td>{{ (product.price/100)|number_format(2) }}€</td>
 						<td>{{ (quantity * product.price/100)|number_format(2) }}€</td>
 						<td>
 							<div class="nav justify-content-end">
@@ -71,13 +71,12 @@
 
 		</div>
 	{% else %}
-	<p class="text-sm-end fst-italic">Continue shopping
-		<a href="{{path('products')}}">here</a>
-		and come back later</p>
+		<p class="text-sm-end fst-italic">Continue shopping
+			<a href="{{path('products')}}">here</a>
+			and come back later</p>
 		<p><hr>
-		<img src="uploads\emptycart.png" alt="empty cart image" style="height:60vh">
+			<img src="uploads\emptycart.png" alt="empty cart image" style="height:60vh">
 			<b class="justify-self-end">Your cart is empty</b>
 		</p>
 	{% endif %}
 {% endblock %}
-

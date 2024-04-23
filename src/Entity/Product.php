@@ -200,4 +200,41 @@ class Product
 
         return $this;
     }
+
+    // calcul de la moyenne des notes d’un produit
+    public function getAvgRatings()
+    {
+        // calculer la somme des notations
+        $somme = 0;
+        //dump($this->comments);
+        foreach ($this->comments as $value) {
+            // dump($value);
+            $somme = $somme + $value->getRating();
+        }
+        // calcul de la moyenne
+        if (count($this->comments) > 0) return $somme / count($this->comments);
+        return 0;
+    }
+
+    // permet de récupérer le commentaire d'un utilisateur par rapport à un produit
+    public function getCommentFromUser(User $user)
+    {
+        foreach ($this->comments as $comment) {
+            if ($comment->getUser() === $user) return $comment;
+        }
+        return null;
+    }
+
+    // permet de voir si l'utilisateur à acheté le produit
+    public function isProductFromUser(User $user)
+    {
+        foreach ($user->getOrders() as $orders) {
+            foreach ($orders->getOrderDetails() as $order) {
+                if ($order->getProduct()->getId() == $this->id && $orders->getStatut()) return $order->getProduct();
+            }
+        }
+        return null;
+    }
+
+    
 }

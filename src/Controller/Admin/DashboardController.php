@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Carrier;
+use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Repository\OrderRepository;
@@ -47,7 +48,7 @@ class DashboardController extends AbstractDashboardController
                     ->generateUrl()
             );
 
-       //return $this->render('admin/dashboard.html.twig');
+        return $this->render('admin/dashboard.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -67,19 +68,24 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Categories', 'fas fa-folder', Category::class);
         yield MenuItem::linkToCrud('Produits', 'fas fa-tags', Product::class);
         yield MenuItem::linkToCrud('Transporteurs', 'fas fa-truck', Carrier::class);
-        
+        yield MenuItem::linkToCrud('Commentaires', 'fas fa-comments', Comment::class);
+
         $nbrsOrderWait = count($this->order->findBy(['statut' => 0]));
         $nbrsOrderOk = count($this->order->findBy(['statut' => 1]));
-        yield MenuItem::linkToCrud('Commandes <span style="color:green;font-weight:bold" class="badge badge-success">' .
-        $nbrsOrderOk . '</span> <span style="color:red;font-weight:bold" class="badge badge-danger">' . $nbrsOrderWait . '</span>',
-        'fas fa-shopping-cart', Order::class);
+
+        yield MenuItem::linkToCrud(
+            'Commandes <span style="color:green;font-weight:bold" class="badge badge-success">' .
+                $nbrsOrderOk . '</span> <span style="color:red;font-weight:bold" class="badge badge-danger">' . $nbrsOrderWait . '</span>',
+            'fas fa-shopping-cart',
+            Order::class
+        );
     }
 
     private $order;
     public function __construct(OrderRepository $order)
-        {
+    {
         $this->order = $order;
-        }
+    }
 }
 
 
