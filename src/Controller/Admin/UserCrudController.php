@@ -15,6 +15,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ToggleField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ArrayFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -51,7 +53,7 @@ class UserCrudController extends AbstractCrudController
     {
         $reponse = $this->container->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $reponse->andwhere("entity.roles not LIKE '%ROLE_ADMIN%' ")
-        ->orderBy('entity.id', 'DESC');
+            ->orderBy('entity.id', 'DESC');
         return $reponse;
     }
 
@@ -81,10 +83,10 @@ class UserCrudController extends AbstractCrudController
 
                     ->displayIf(static function ($entity) {
                         foreach ($entity->getRoles() as $role) {
-                            if ($role == 'ROLE_ADMIN') 
+                            if ($role == 'ROLE_ADMIN')
                                 return false;
-                            }
-                        return true;   
+                        }
+                        return true;
                     });
                 return $action;
             })
@@ -95,11 +97,11 @@ class UserCrudController extends AbstractCrudController
 
                     ->displayIf(static function ($entity) {
                         foreach ($entity->getRoles() as $role) {
-                            if ($role == 'ROLE_ADMIN') 
+                            if ($role == 'ROLE_ADMIN')
                                 return false;
-                            }
-                        return true;   
-            });
+                        }
+                        return true;
+                    });
                 return $action;
             });
     }
@@ -108,9 +110,8 @@ class UserCrudController extends AbstractCrudController
     {
         return $filters
             ->add('firstName')
-            ->add('lastName') 
-            ->add(ArrayFilter::new('roles')->setChoices(['Admin'=>'ROLE_ADMIN', 'User'=>'ROLE_USER']))
-            ;
+            ->add('lastName')
+            ->add(ArrayFilter::new('roles')->setChoices(['Admin' => 'ROLE_ADMIN', 'User' => 'ROLE_USER']));
     }
 
     public function configureFields(string $pageName): iterable
@@ -120,6 +121,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('firstName'),
             TextField::new('lastName'),
             EmailField::new('email')->setLabel('E-Mail'),
+            BooleanField::new('active')->setLabel('Status'),
             ChoiceField::new('roles')->setChoices(['Admin' => 'ROLE_ADMIN', 'User' => 'ROLE_USER'])->allowMultipleChoices()->setLabel('Role'),
             TextField::new('password')->onlyWhenCreating()->setFormType(PasswordType::class),
             TextField::new('confirmPassword')->onlyWhenCreating()->setRequired(true)->setFormType(PasswordType::class)
