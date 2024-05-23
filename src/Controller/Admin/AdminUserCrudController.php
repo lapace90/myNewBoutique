@@ -123,6 +123,7 @@ class AdminUserCrudController extends AbstractCrudController
             TextField::new('firstName'),
             TextField::new('lastName'),
             EmailField::new('email')->setLabel('E-Mail'),
+            BooleanField::new('active')->setLabel('Status'),
             ChoiceField::new('roles')->setChoices(['Admin' => 'ROLE_ADMIN', 'User' => 'ROLE_USER'])->allowMultipleChoices()->setLabel('Role'),
             TextField::new('password')->onlyWhenCreating()->setFormType(PasswordType::class),
             TextField::new('confirmPassword')->onlyWhenCreating()->setRequired(true)->setFormType(PasswordType::class)

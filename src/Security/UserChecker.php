@@ -15,11 +15,11 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if (!$user->isActive()) {
+        // if (!$user->isActive()) {
             
-            // the message passed to this exception is meant to be displayed to the user
-            throw new CustomUserMessageAccountStatusException('This account is not active.');
-        }
+        //     // the message passed to this exception is meant to be displayed to the user
+        //     throw new CustomUserMessageAccountStatusException('This account is not active.');
+        // }
     }
 
     public function checkPostAuth(UserInterface $user): void

@@ -8,6 +8,7 @@ use App\Entity\Carrier;
 use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\Config;
 use App\Repository\OrderRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,6 +61,8 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fas fa-home');
+        yield MenuItem::section('Configuration');
+        yield MenuItem::linkToCrud('Configuration', 'fas fa-gears', Config::class);
         yield MenuItem::section('Admin');
         yield MenuItem::linkToCrud('Admin', 'fas fa-users', User::class)->setController(AdminUserCrudController::class);
         yield MenuItem::section('User');
