@@ -1,0 +1,34 @@
+/* Variables globales PinkKiwi */
+:root {
+    /* Couleurs principales */
+    --pink-primary: #FF69B4;
+    --pink-hover: #FF1493;
+    --purple: #9370DB;
+    --teal: #20B2AA;
+    --gold: #FFD700;
+    --dark: #2d3748;
+    --light-gray: #f7fafc;
+    
+    /* Backgrounds sections */
+    --bg-pink: linear-gradient(135deg, #fff5f7 0%, #ffe5ec 100%);
+    --bg-purple: linear-gradient(135deg, #f3e7ff 0%, #e9d5ff 100%);
+    --bg-teal: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    
+    /* Ombres */
+    --shadow-sm: 0 2px 15px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 40px rgba(255, 105, 180, 0.15);
+    --shadow-xl: 0 20px 50px rgba(255, 105, 180, 0.25);
+    
+    /* Border radius */
+    --radius-sm: 12px;
+    --radius-md: 15px;
+    --radius-lg: 20px;
+    --radius-xl: 30px;
+    
+    /* Transitions */
+    --transition-fast: all 0.2s ease;
+    --transition-base: all 0.3s ease;
+    --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

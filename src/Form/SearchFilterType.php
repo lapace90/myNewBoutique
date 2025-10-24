@@ -19,34 +19,45 @@ class SearchFilterType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => false,
-                'label' => 'Name',
+                'label' => 'Product Name',
+                'attr' => [
+                    'placeholder' => 'Search by name...',
+                    'class' => 'form-control'
+                ]
             ])
             ->add('minPrice', NumberType::class, [
                 'required' => false,
-                'label' => 'Min Price',
+                'label' => 'Min Price (€)',
+                'attr' => [
+                    'placeholder' => 'e.g. 10',
+                    'class' => 'form-control',
+                    'step' => '0.01'
+                ]
             ])
-
             ->add('maxPrice', NumberType::class, [
                 'required' => false,
-                'label' => 'Max Price',
+                'label' => 'Max Price (€)',
+                'attr' => [
+                    'placeholder' => 'e.g. 100',
+                    'class' => 'form-control',
+                    'step' => '0.01'
+                ]
             ])
-
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => false,
                 'multiple' => true,
-                'expanded' => true // choix de plusieurs valeurs
-            ])
-
-            ->add('submit', SubmitType::class, ['label' => 'Enter', 'attr' => ['class' => 'btn btn-success col-8 d-block mx-auto']]);;
+                'expanded' => true,
+                'label' => 'Categories'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => SearchFilters::class,
-          
+
         ]);
     }
 }

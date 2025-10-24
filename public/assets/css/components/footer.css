@@ -1,0 +1,84 @@
+/* Footer */
+.footer {
+    margin-top: 5rem;
+}
+
+.footer .bg-dark {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+    padding: 4rem 0 2rem 0;
+}
+
+.footer h5 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.footer h5::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pink-primary), var(--purple));
+    border-radius: 2px;
+}
+
+.footer .footer-links {
+    padding: 0;
+}
+
+.footer .footer-links li {
+    margin-bottom: 1rem;
+}
+
+.footer .footer-links a {
+    color: #cbd5e0;
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: var(--transition-base);
+    display: inline-block;
+    padding: 0.3rem 0;
+}
+
+.footer .footer-links a:hover {
+    color: var(--pink-primary);
+    transform: translateX(5px);
+}
+
+.footer .text-pink {
+    color: var(--pink-primary) !important;
+    font-size: 1.5rem;
+}
+
+.footer .text-muted {
+    color: #a0aec0 !important;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.footer p.text-muted {
+    margin-bottom: 1.5rem;
+}
+
+.footer .fab, .footer .fas {
+    transition: var(--transition-base);
+}
+
+.footer a:hover .fab,
+.footer a:hover .fas {
+    transform: scale(1.2) rotate(5deg);
+}
+
+.footer hr {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 2rem 0;
+}
+
+.footer .row:last-child p {
+    font-size: 1rem;
+    color: #a0aec0;
+}

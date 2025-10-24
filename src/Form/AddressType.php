@@ -79,13 +79,6 @@ class AddressType extends AbstractType
                 'attr' => [
                     'placeHolder' => "Enter your phone"
                 ]
-            ])
-            
-            ->add('submit', SubmitType::class, [
-                'label' => 'Save',
-                'attr' => [
-                    'class' => "btn btn-success col-12"
-                ]
             ]);
     }
 

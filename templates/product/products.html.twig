@@ -1,26 +1,72 @@
 {% extends 'base.html.twig' %}
-{% block title %}Our Products - My New Boutique
-{% endblock %}
+
+{% block title %}Our Products - PinkKiwi Boutique{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-	<h1 class="mb-4">Our Products</h1>
-	<div class="row">
-		<div class="col-md-3">
-			<h3>Filters</h3>
-			{{ form_start(form) }}
-			{{ form_end(form) }}
+<div class="products-page">
+	<div class="row mb-5">
+		<div class="col-12 text-center">
+			<h1 class="display-4 fw-bold section-title">Our Products</h1>
+			<p class="lead text-muted">Discover our entire collection of amazing products</p>
 		</div>
-		<div class="col-md-9">
-			{% if products is empty %}
-			<div class="alert alert-danger">There are no products matching the selected criteria.</div>
-			{% endif %}
-			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+	</div>
+
+	<div class="row">
+		<!-- Sidebar Filters -->
+		<div class="col-lg-3 mb-4">
+			<div class="filter-sidebar">
+				<h3 class="filter-title">
+					<i class="fas fa-filter me-2"></i>Filters
+				</h3>
+				<div class="filter-content">
+					{{ form_start(form) }}
+					{{ form_widget(form) }}
+					<div class="d-grid gap-2 mt-3">
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-search me-2"></i>Apply Filters
+						</button>
+						<a href="{{ path('products') }}" class="btn btn-outline-secondary">
+							<i class="fas fa-redo me-2"></i>Reset
+						</a>
+					</div>
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+
+		<!-- Products Grid -->
+		<div class="col-lg-9">
+			{% if products.items is empty %}
+			<div class="alert alert-warning text-center py-5">
+				<i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+				<h4>No products found</h4>
+				<p>There are no products matching your selected criteria.</p>
+				<a href="{{ path('products') }}" class="btn btn-primary mt-3">View All Products</a>
+			</div>
+			{% else %}
+			<div class="mb-3 d-flex justify-content-between align-items-center">
+				<p class="text-muted mb-0">
+					<i class="fas fa-box me-2"></i>
+					<strong>{{ products.getTotalItemCount }}</strong> product(s) found
+				</p>
+				<p class="text-muted mb-0">
+					Page {{ products.currentPageNumber }} of {{ products.pageCount }}
+				</p>
+			</div>
+
+			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
 				{% for product in products %}
 				<div class="col">
 					{% include 'components/product_card.html.twig' with {'product': product} %}
 				</div>
 				{% endfor %}
 			</div>
+
+			<!-- Pagination -->
+			<div class="pagination-wrapper">
+				{{ knp_pagination_render(products, 'components/pagination.html.twig') }}
+			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>

@@ -1,0 +1,57 @@
+/* Buttons */
+.btn-outline-primary {
+    border: 2px solid var(--pink-primary);
+    color: var(--pink-primary);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.5rem;
+    transition: var(--transition-base);
+}
+
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-hover));
+    border-color: var(--pink-hover);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--purple);
+    border-color: var(--purple);
+    color: white;
+}
+
+/* Tous les btn-lg ont les MÊMES dimensions (Bootstrap gère) */
+.btn-lg {
+    border-radius: 50px;
+    font-weight: 700;
+}
+
+/* On ajoute juste les couleurs/effets pour chaque type */
+.btn-lg.btn-primary {
+    background: linear-gradient(135deg, var(--pink-primary), var(--purple));
+    border: none;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+}
+
+.btn-lg.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.4);
+}
+
+.btn-lg.btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.btn-lg.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
+}
+
+.btn-lg.btn-outline-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
+}

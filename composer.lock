@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7282988c9c016023af35a1e6242ffe20",
+    "content-hash": "1e80f756a52c6e6063f6b3f6741bc213",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1901,40 +1901,43 @@
         },
         {
             "name": "knplabs/knp-paginator-bundle",
-            "version": "v6.3.0",
+            "version": "v6.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "f51fe26df07a08c1b3f272474401ef8a008b190c"
+                "reference": "9bf5212f01ca316ef8fe42208e00685e8b6ffa69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/f51fe26df07a08c1b3f272474401ef8a008b190c",
-                "reference": "f51fe26df07a08c1b3f272474401ef8a008b190c",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/9bf5212f01ca316ef8fe42208e00685e8b6ffa69",
+                "reference": "9bf5212f01ca316ef8fe42208e00685e8b6ffa69",
                 "shasum": ""
             },
             "require": {
-                "knplabs/knp-components": "^4.1",
+                "knplabs/knp-components": "^4.4 || ^5.0",
                 "php": "^8.1",
-                "symfony/config": "^6.3 || ^7.0",
-                "symfony/dependency-injection": "^6.3 || ^7.0",
-                "symfony/event-dispatcher": "^6.3 || ^7.0",
-                "symfony/http-foundation": "^6.3 || ^7.0",
-                "symfony/http-kernel": "^6.3 || ^7.0",
-                "symfony/routing": "^6.3 || ^7.0",
-                "symfony/translation": "^6.3 || ^7.0",
-                "twig/twig": "^3.0"
+                "symfony/config": "^6.4 || ^7.0",
+                "symfony/dependency-injection": "^6.4 || ^7.0",
+                "symfony/event-dispatcher": "^6.4 || ^7.0",
+                "symfony/http-foundation": "^6.4 || ^7.0",
+                "symfony/http-kernel": "^6.4 || ^7.0",
+                "symfony/routing": "^6.4 || ^7.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.9",
-                "phpunit/phpunit": "^9.5",
-                "symfony/expression-language": "^6.3 || ^7.0",
-                "symfony/templating": "^6.3 || ^7.0"
+                "phpstan/phpstan": "^1.12",
+                "phpunit/phpunit": "^10.5 || ^11.5 || ^12.0",
+                "symfony/templating": "^6.4 || ^7.0",
+                "symfony/translation": "^6.4 || ^7.0",
+                "twig/twig": "^3.0"
+            },
+            "suggest": {
+                "symfony/translation": "To use the templates",
+                "twig/twig": "To use the templates"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.x-dev"
+                    "dev-master": "6.x-dev"
                 }
             },
             "autoload": {
@@ -1969,9 +1972,9 @@
             ],
             "support": {
                 "issues": "https://github.com/KnpLabs/KnpPaginatorBundle/issues",
-                "source": "https://github.com/KnpLabs/KnpPaginatorBundle/tree/v6.3.0"
+                "source": "https://github.com/KnpLabs/KnpPaginatorBundle/tree/v6.9.1"
             },
-            "time": "2023-11-19T08:15:37+00:00"
+            "time": "2025-07-25T07:53:13+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -10858,7 +10861,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -10866,6 +10869,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

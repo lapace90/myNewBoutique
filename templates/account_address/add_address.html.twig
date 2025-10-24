@@ -1,15 +1,157 @@
 {% extends 'base.html.twig' %}
-{% block title %}Add a new address
+
+{% block title %}
+{% if app.request.attributes.get('_route') == 'address_edit' %}
+Edit Address
+{% else %}
+Add New Address
+{% endif %} - PinkKiwi Boutique
 {% endblock %}
+
 {% block content %}
-	<h1>Add a new address</h1>
-	<hr>
+<div class="address-form-page">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-card">
+                <!-- Header -->
+                <div class="form-header">
+                    <div class="form-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h2 class="form-title">
+                        {% if app.request.attributes.get('_route') == 'address_edit' %}
+                        Edit Address
+                        {% else %}
+                        Add New Address
+                        {% endif %}
+                    </h2>
+                    <p class="text-muted">Fill in the delivery information below</p>
+                </div>
 
+                {{ form_start(form) }}
 
-		<div class="col-md-6 mx-auto">
-			{{ form_start(form) }}
-			{{ form_end(form) }}
-		</div>
+                <div class="form-section">
+                    <h5 class="section-subtitle">
+                        <i class="fas fa-tag me-2"></i>Address Identification
+                    </h5>
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form_row(form.name, {
+                            'label': 'Address Name',
+                            'attr': {
+                            'placeholder': 'e.g. Home, Office, Parents...',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                    </div>
+                </div>
 
+                <div class="form-section">
+                    <h5 class="section-subtitle">
+                        <i class="fas fa-user me-2"></i>Contact Information
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.firstName, {
+                            'label': 'First Name',
+                            'attr': {
+                            'placeholder': 'John',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.lastName, {
+                            'label': 'Last Name',
+                            'attr': {
+                            'placeholder': 'Doe',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form_row(form.company, {
+                            'label': 'Company (Optional)',
+                            'attr': {
+                            'placeholder': 'Your company name',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                    </div>
+                </div>
 
+                <div class="form-section">
+                    <h5 class="section-subtitle">
+                        <i class="fas fa-home me-2"></i>Address Details
+                    </h5>
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form_row(form.address, {
+                            'label': 'Street Address',
+                            'attr': {
+                            'placeholder': '123 Main Street, Apt 4B',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form_row(form.postal, {
+                            'label': 'Postal Code',
+                            'attr': {
+                            'placeholder': '75001',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                        <div class="col-md-8">
+                            {{ form_row(form.city, {
+                            'label': 'City',
+                            'attr': {
+                            'placeholder': 'Paris',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.country, {
+                            'label': 'Country',
+                            'attr': {
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.phone, {
+                            'label': 'Phone Number',
+                            'attr': {
+                            'placeholder': '+33 6 12 34 56 78',
+                            'class': 'form-control form-control-lg'
+                            }
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-lg btn-success">
+                        <i class="fas fa-check-circle me-2"></i>Save Address
+                    </button>
+                    <a href="{{ path('account_address') }}" class="btn btn-lg btn-outline-secondary">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

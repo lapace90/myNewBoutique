@@ -1,0 +1,67 @@
+{# Pagination custom pour PinkKiwi #}
+{% if pageCount > 1 %}
+<div class="pagination-wrapper">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {# First page #}
+            {% if current != 1 %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): 1})) }}" title="First page">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            {# Previous page #}
+            {% if previous is defined %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" title="Previous page">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span><i class="fas fa-angle-left"></i></span>
+                </li>
+            {% endif %}
+
+            {# Page numbers #}
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <li>
+                        <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">
+                            {{ page }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="active">
+                        <span>{{ page }}</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {# Next page #}
+            {% if next is defined %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" title="Next page">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span><i class="fas fa-angle-right"></i></span>
+                </li>
+            {% endif %}
+
+            {# Last page #}
+            {% if current != pageCount %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}" title="Last page">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endif %}

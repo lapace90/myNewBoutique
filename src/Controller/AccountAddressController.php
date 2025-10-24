@@ -21,14 +21,12 @@ class AccountAddressController extends AbstractController
             'account_address' => 'AccountAddressController',
         ]);
     }
-
+    
     #[Route('/account/address_list', name: 'address_list')]
-    public function show(AddressRepository $repo): Response
+    public function show(): Response
     {
-
-        return $this->render('/account_address/address_list.html.twig', [
-            $address = $repo->findAll()
-        ]);
+        // Rediriger vers la page principale des adresses
+        return $this->redirectToRoute('account_address');
     }
 
     #[Route('/account/delete_an_address/{id}', name: 'delete_address')]

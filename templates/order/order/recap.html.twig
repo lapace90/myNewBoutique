@@ -1,50 +1,136 @@
 {% extends 'base.html.twig' %}
-{% block title %}Paiement de ma commande - Ma Boutique!
-{% endblock %}
+
+{% block title %}Order Review - PinkKiwi Boutique{% endblock %}
+
 {% block content %}
-<h2>Recapitulatif de ma Commande</h2>
-<p>Verifier les informations avec de payer votre commande</p>
-<div class="row">
-<div class="col-md-6">
-<strong>Adresse de livraison</strong><br>
-{{order.delivery | replace({'[br]': '<br>'}) | raw}}
-<hr>
-<strong>Mon transporteur</strong><br>
-{{order.carrier.name}}<br>
-{{order.carrier.description}}<br>
-{{ (order.carrier.price / 100) | number_format(2)}}€
-
-</div>
-
-<div class="col-md-6">
-    <div class="text-center">Recapitulatif de ma commande</div>
-    {% set total = null %}
-    {% for product in cart %}
-    {% set total= total + product.product.price * product.quantity %}
-        <div class="row mt-3">
-            <div class="col-2">
-                <img src="{{product.product.picture}}" alt="{{product.product.name}}" class="img-fluid">
-            </div>
-            <div class="col-8">
-                {{product.product.name}}<br>
-                    <i>{{product.product.subtitle}}</i><br>
-                    x   
-                    {{product.quantity}}
-            </div>
-            <div class="col-2 my-auto">
-                {{product.product.price * product.quantity /100 | number_format(2)}}€
-            </div>
-
+<div class="checkout-page">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold section-title">Review Your Order</h1>
+            <p class="text-muted">Please verify your information before payment</p>
         </div>
-        {% endfor %}
-        <hr>
-        <strong>Sous Total : {{total/100 | number_format(2) }}€<br></strong>
-        <strong>Livraison : {{ (order.carrier.price / 100) | number_format(2) }}€</strong>
-        <hr>
-        <strong>Total : {{ (total/100 + order.carrier.price / 100) | number_format(2) }}€</strong>
-        <a href="{{ url_stripe }}" class="btn btn-success col-12 mt-3">Payer
-        {{total/100 + order.carrier.price /100 | number_format(2) }}
-        €</a>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="checkout-steps mb-5">
+        <div class="step completed">
+            <div class="step-number"><i class="fas fa-check"></i></div>
+            <div class="step-label">Shipping & Payment</div>
+        </div>
+        <div class="step-line completed"></div>
+        <div class="step active">
+            <div class="step-number">2</div>
+            <div class="step-label">Review Order</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-label">Payment</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Delivery & Shipping Info -->
+        <div class="col-lg-7 mb-4">
+            <!-- Delivery Address -->
+            <div class="info-card mb-4">
+                <h5 class="info-card-title">
+                    <i class="fas fa-map-marker-alt me-2"></i>Delivery Address
+                </h5>
+                <div class="info-card-content">
+                    {{ order.delivery|replace({'[br]': '<br>'})|raw }}
+                </div>
+                <a href="{{ path('order') }}" class="btn btn-sm btn-outline-secondary mt-3">
+                    <i class="fas fa-edit me-2"></i>Edit Address
+                </a>
+            </div>
+
+            <!-- Carrier Info -->
+            <div class="info-card">
+                <h5 class="info-card-title">
+                    <i class="fas fa-truck me-2"></i>Shipping Method
+                </h5>
+                <div class="info-card-content">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">{{ order.carrier.name }}</h6>
+                            <p class="text-muted mb-0">{{ order.carrier.description }}</p>
+                        </div>
+                        <div class="price-tag">
+                            {{ (order.carrier.price / 100)|number_format(2) }} €
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path('order') }}" class="btn btn-sm btn-outline-secondary mt-3">
+                    <i class="fas fa-edit me-2"></i>Change Carrier
+                </a>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-5">
+            <div class="order-summary-recap">
+                <h4 class="summary-title">
+                    <i class="fas fa-receipt me-2"></i>Order Summary
+                </h4>
+                
+                {% set total = 0 %}
+                {% for product in cart %}
+                    {% set total = total + (product.product.price * product.quantity) %}
+                    
+                    <div class="recap-item">
+                        <div class="recap-item-image">
+                            <img src="{{ product.product.picture }}" alt="{{ product.product.name }}">
+                        </div>
+                        <div class="recap-item-details">
+                            <h6>{{ product.product.name }}</h6>
+                            <p class="text-muted small">{{ product.product.subtitle }}</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Qty: {{ product.quantity }}</span>
+                                <span class="fw-bold">{{ (product.product.price * product.quantity / 100)|number_format(2) }} €</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <hr class="my-3">
+                
+                <div class="summary-totals">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>{{ (total/100)|number_format(2) }} €</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>{{ (order.carrier.price / 100)|number_format(2) }} €</span>
+                    </div>
+                    <hr class="my-2">
+                    <div class="summary-row total-row">
+                        <span class="fw-bold fs-5">Total</span>
+                        <span class="price-tag fs-4">{{ ((total + order.carrier.price) / 100)|number_format(2) }} €</span>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <a href="{{ url_stripe }}" class="btn btn-success btn-lg">
+                        <i class="fas fa-lock me-2"></i>Proceed to Payment
+                        <br>
+                        <small>{{ ((total + order.carrier.price) / 100)|number_format(2) }} €</small>
+                    </a>
+                </div>
+                
+                <div class="payment-methods mt-4">
+                    <p class="text-muted small text-center mb-2">We accept</p>
+                    <div class="payment-icons">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-amex"></i>
+                        <i class="fab fa-cc-stripe"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

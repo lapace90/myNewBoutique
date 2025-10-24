@@ -1,21 +1,90 @@
 {% extends 'base.html.twig' %}
 
-
-{% block title %}Inscription Myboutique{% endblock %}
+{% block title %}Sign Up - PinkKiwi Boutique{% endblock %}
 
 {% block content %}
+<div class="auth-page">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="auth-card">
+                <!-- Logo/Icon -->
+                <div class="auth-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                
+                <h2 class="auth-title">Create Account</h2>
+                <p class="text-muted text-center mb-4">Join PinkKiwi and start shopping!</p>
 
-<h1 class="mt-4">Inscription au Site</h1>
+                {{ form_start(form) }}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_row(form.firstName, {
+                            'label': 'First Name',
+                            'attr': {
+                                'placeholder': 'John',
+                                'class': 'form-control form-control-lg'
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_row(form.lastName, {
+                            'label': 'Last Name',
+                            'attr': {
+                                'placeholder': 'Doe',
+                                'class': 'form-control form-control-lg'
+                            }
+                        }) }}
+                    </div>
+                </div>
 
-{{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_row(form.email, {
+                        'label': 'Email Address',
+                        'attr': {
+                            'placeholder': 'your.email@example.com',
+                            'class': 'form-control form-control-lg'
+                        }
+                    }) }}
+                </div>
 
-{{form_row(form.firstName,{'label':false,'attr':{'placeholder':'Enter your First Name'}})}}
-{{form_row(form.lastName,{'label':false,'attr':{'placeholder':'Enter your Last Name'}})}}
-{# {{form_row(form.birthday,{'label':false,'attr':{'placeholder':'When\'s Your Birthday?'}})}} #}
-{{form_row(form.email,{'label':false,'attr':{'placeholder':'Enter your Email'} })}}
-{{form_row(form.password)}}
-{{form_row(form.confirmPassword)}}
+                <div class="mb-3">
+                    {{ form_row(form.password, {
+                        'label': 'Password',
+                        'attr': {
+                            'class': 'form-control form-control-lg'
+                        }
+                    }) }}
+                </div>
 
+                <div class="mb-3">
+                    {{ form_row(form.confirmPassword, {
+                        'label': 'Confirm Password',
+                        'attr': {
+                            'class': 'form-control form-control-lg'
+                        }
+                    }) }}
+                </div>
 
-{{ form_end(form) }}
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="fas fa-check-circle me-2"></i>Create My Account
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+
+                <hr class="my-4">
+
+                <!-- Login Link -->
+                <div class="auth-switch">
+                    <p class="text-muted mb-2">Already have an account?</p>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-primary btn-lg w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

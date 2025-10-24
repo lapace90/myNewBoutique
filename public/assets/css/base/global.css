@@ -1,0 +1,42 @@
+/* Styles globaux */
+body {
+    background: var(--bg-gradient);
+    padding-top: 80px;
+}
+
+.container.marketing {
+    background: transparent;
+}
+
+main {
+    min-height: calc(100vh - 80px);
+}
+
+/* Sections avec backgrounds */
+.section-categories {
+    background: var(--bg-pink);
+    padding: 4rem 2rem;
+    margin: 0 0 3rem 0;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.section-featured {
+    background: var(--bg-purple);
+    padding: 4rem 2rem;
+    margin: 0 0 3rem 0;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 40px rgba(147, 112, 219, 0.15);
+}
+
+.section-latest {
+    background: var(--bg-teal);
+    padding: 4rem 2rem;
+    margin: 0 0 3rem 0;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 40px rgba(32, 178, 170, 0.15);
+}
+
+.section-cta {
+    margin: 0 0 3rem 0;
+}

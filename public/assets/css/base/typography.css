@@ -1,0 +1,25 @@
+/* Typographie */
+.section-title {
+    position: relative;
+    display: inline-block;
+    margin: 2.5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pink-primary), var(--purple));
+    border-radius: 2px;
+}
+
+.featurette-divider {
+    margin: 4rem 0;
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pink-primary), transparent);
+}

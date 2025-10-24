@@ -13,51 +13,48 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ProductController extends AbstractController
 {
-    #[Route('/our-products', name: 'products')]
-    public function index(ProductRepository $repo, Request $request): Response
-    {
 
+    #[Route('/our-products', name: 'products')]
+    public function index(ProductRepository $repo, Request $request, PaginatorInterface $paginator): Response
+    {
         $search = new SearchFilters();
         $form = $this->createForm(SearchFilterType::class, $search);
         $form->handleRequest($request);
-        $error = null;
-        //$products = $repo->findByName("Product's name");
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Questa if (count(..)) è da togliere. Il filtro per le categorie deve stare dentro $repo->findByFilter()
-            if (count($search->getCategories())) {
-                $categoryIds = [];
-                foreach ($search->getCategories() as $category) {
-                    $categoryIds[] = $category->getId();
-                }
-                $products = $repo->findBy(['Category' => $categoryIds]);
-            } else {
-                $products = $repo->findByFilters($search);
-                // dump($products);
-                // dd('ciao');
+            // Convertir les prix euros → centimes
+            if ($search->getMinPrice()) {
+                $search->setMinPrice($search->getMinPrice() * 100);
+            }
+            if ($search->getMaxPrice()) {
+                $search->setMaxPrice($search->getMaxPrice() * 100);
             }
 
-            if (!$products) {
-                $error = "There are no products matching the selected criteria.";
-            }
+            // Récupérer la query au lieu des résultats
+            $query = $repo->findByFiltersQuery($search);
         } else {
-            // Se il form non è stato inviato o non è valido, mostra tutti i prodotti
-            $products = $repo->findAll();
+            // Récupérer tous les produits sous forme de query
+            $query = $repo->createQueryBuilder('p')
+                ->orderBy('p.id', 'DESC')
+                ->getQuery();
         }
 
+        // Paginer les résultats
+        $products = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Numéro de page
+            12 // Nombre de produits par page
+        );
 
         return $this->render('product/products.html.twig', [
             'products' => $products,
             'form' => $form->createView(),
-            'error' => $error,
-            //'orders' => $repo->FindPaidOrder($this->getUser())
         ]);
     }
-
-
     #[Route('/product/{slug}', name: 'product')]
     public function product(Product $product): Response
     {
@@ -65,7 +62,6 @@ class ProductController extends AbstractController
             'product' => $product
         ]);
     }
-
 
     #[Route('/account/mes-commandes/{slug}/comment', name: 'comment_product')]
     public function comment(Product $product, Request $request, EntityManagerInterface $manager)

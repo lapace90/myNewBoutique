@@ -29,8 +29,16 @@ class OrderController extends AbstractController
     #[Route('/order', name: 'order')]
     public function index(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager, Cart $cart, ProductRepository $repo): Response
     {
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            $this->addFlash('warning', 'Please login to proceed to checkout');
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Vérifier si l'utilisateur a des adresses
         if (!$user->getAddresses()->getValues()) {
-            return $this->redirectToRoute('account_address_add');
+            $this->addFlash('info', 'Please add a delivery address first');
+            return $this->redirectToRoute('add_address');
         }
 
         $cart = $cart->get();
@@ -74,9 +82,9 @@ class OrderController extends AbstractController
             $manager->flush();
 
             return $this->render('order/order/recap.html.twig', [
-                'order'=> $order,
-                'cart'=> $cartComplete,
-                'url_stripe'=>$checkoutSession->url
+                'order' => $order,
+                'cart' => $cartComplete,
+                'url_stripe' => $checkoutSession->url
             ]);
         }
         return $this->render('order/order/order.html.twig', [

@@ -1,0 +1,28 @@
+/* Forms */
+.filter-sidebar {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 100px;
+}
+
+.filter-title {
+    color: var(--dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--pink-primary);
+}
+
+.filter-content .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.filter-content label {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}

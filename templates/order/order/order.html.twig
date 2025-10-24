@@ -1,37 +1,105 @@
 {% extends 'base.html.twig' %}
-{% block title %}Valider ma commande - My Boutique PinkKiwi!
-{% endblock %}
+
+{% block title %}Checkout - PinkKiwi Boutique{% endblock %}
+
 {% block content %}
-<h2>Je passe ma commande</h2>
-<p>Choisissez vos préférences avant de passer votre commande</p>
-<hr>
-<div class="row">
-<div class="col-md-6">
-{% set formHTML %}
-{{form_start(form)}}{{form_end(form)}}
-{% endset %}
-{{ formHTML|replace({'[br]': '<br>'})|raw }}
+<div class="checkout-page">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold section-title">Checkout</h1>
+            <p class="text-muted">Complete your order in just a few steps</p>
+        </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="checkout-steps mb-5">
+        <div class="step active">
+            <div class="step-number">1</div>
+            <div class="step-label">Shipping & Payment</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-label">Review Order</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-label">Payment</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-7 mb-4">
+            <div class="checkout-form-section">
+                <h4 class="section-subtitle mb-4">
+                    <i class="fas fa-shipping-fast me-2"></i>Shipping & Delivery Options
+                </h4>
+                
+                {% set formHTML %}
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                {% endset %}
+                
+                <div class="form-content">
+                    {{ formHTML|replace({'[br]': '<br>'})|raw }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-5">
+            <div class="order-summary-checkout">
+                <h4 class="summary-title">
+                    <i class="fas fa-shopping-bag me-2"></i>Order Summary
+                </h4>
+                
+                {% set total = 0 %}
+                {% for product in cart %}
+                    {% set total = total + (product.product.price * product.quantity) %}
+                    
+                    <div class="summary-item">
+                        <div class="summary-item-image">
+                            <img src="{{ product.product.picture }}" alt="{{ product.product.name }}" class="img-fluid rounded">
+                        </div>
+                        <div class="summary-item-info">
+                            <h6 class="mb-1">{{ product.product.name }}</h6>
+                            <p class="text-muted small mb-0">{{ product.product.subtitle }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="badge bg-secondary">Qty: {{ product.quantity }}</span>
+                                <span class="fw-bold text-primary">{{ (product.product.price * product.quantity / 100)|number_format(2) }} €</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <hr class="my-3">
+                
+                <div class="summary-totals">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span class="price-tag">{{ (total/100)|number_format(2) }} €</span>
+                    </div>
+                    <div class="summary-row text-muted">
+                        <span>Shipping</span>
+                        <span>Selected at next step</span>
+                    </div>
+                </div>
+                
+                <div class="checkout-security mt-4">
+                    <div class="security-badge">
+                        <i class="fas fa-lock me-2"></i>
+                        <span>Secure Checkout</span>
+                    </div>
+                    <div class="security-badge">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <span>SSL Encrypted</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="col-md-6">
-			<b>Recap de ma commande</b>
-			{% for product in cart %}
-				<div class="row mt-3">
-					<h3></h3><br>
-					<div class="col-2">
-						<img src="{{product.product.picture}}" alt="{{product.product.name}}" class="img-fluid">
-					</div>
-					<div class="col-2">
-						<strong>{{product.product.name}}</strong><br>
-						<i>{{product.product.subtitle}}</i><br>
-					</div>
-					<div class="col-2">
-						<b>{{(product.product.price / 100) | number_format(2)}}</b><br>
-					</div>
-					<div class="col-2">
-						<i>{{product.quantity}}</i>
-					</div>
-				</div>
-			{% endfor %}
-		</div>
-	</div>
 {% endblock %}
