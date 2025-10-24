@@ -1,2 +1,70 @@
-    <p class="float-end"><a href="#">Back to top</a></p>
-    <p>&copy; 2017–2023 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+<footer class="bg-dark text-light mt-5 py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5 class="text-pink fw-bold"><i class="fas fa-kiwi-bird"></i> PinkKiwi Boutique</h5>
+                <p class="">Your trusted online shop for quality products at the best prices.</p>
+                <div class="mt-3">
+                    <a href="#" class="text-light me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-linkedin fa-lg"></i></a>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <h5 class="fw-bold">Shop</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ path('products') }}" class="text-light text-decoration-none">All Products</a></li>
+                    <li><a href="{{ path('products') }}" class="text-light text-decoration-none">Categories</a></li>
+                    <li><a href="{{ path('products') }}" class="text-light text-decoration-none">New Arrivals</a></li>
+                    <li><a href="{{ path('products') }}" class="text-light text-decoration-none">Best Sellers</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold">Customer Service</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ path('account') }}" class="text-light text-decoration-none">My Account</a></li>
+                    <li><a href="{{ path('my_cart') }}" class="text-light text-decoration-none">Shopping Cart</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold">Information</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Privacy Policy</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Terms & Conditions</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Shipping Info</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="text-light mb-0">&copy; {{ 'now'|date('Y') }} PinkKiwi Boutique. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="text-light mb-0">Made with <i class="fas fa-heart text-danger"></i> for your shopping pleasure
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .text-pink {
+        color: #FF69B4;
+    }
+
+    footer a:hover {
+        color: #FF69B4 !important;
+        transition: color 0.3s ease;
+    }
+
+</style>

@@ -1,0 +1,80 @@
+services:
+  # PHP-FPM
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pinkiwi_php
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - DATABASE_URL=mysql://pinkiwi_user:pinkiwi_password@mysql:3306/pinkiwi_db?serverVersion=8.0
+      - MAILER_DSN=smtp://mailhog:1025
+    depends_on:
+      - mysql
+      - mailhog
+    networks:
+      - pinkiwi_network
+
+  # Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: pinkiwi_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - pinkiwi_network
+
+  # MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: pinkiwi_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: pinkiwi_db
+      MYSQL_USER: pinkiwi_user
+      MYSQL_PASSWORD: pinkiwi_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - pinkiwi_network
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pinkiwi_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - pinkiwi_network
+
+  # Mailhog (capture emails)
+  mailhog:
+    image: mailhog/mailhog
+    container_name: pinkiwi_mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Interface web
+    networks:
+      - pinkiwi_network
+
+networks:
+  pinkiwi_network:
+    driver: bridge
+
+volumes:
+  mysql_data:

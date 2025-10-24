@@ -1,9 +1,4 @@
-
 ###> symfony/framework-bundle ###
-
-/migrations/*
-!/migrations/.gitignore
-/.env
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -24,6 +19,28 @@
 ###< symfony/phpunit-bridge ###
 
 ###> symfony/asset-mapper ###
-##/public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+# Uploads (images produits, etc.)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Logs et cache
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# Node modules si jamais tu utilises npm/yarn
+/node_modules/
+
+# Fichiers temporaires
+*.tmp
+*.bak

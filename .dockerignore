@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env.local
+.env.test
+var/
+vendor/
+node_modules/
+public/bundles/
+.idea/
+*.md
+.DS_Store

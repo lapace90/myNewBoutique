@@ -1,106 +1,110 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-	<head>
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="{% block metaDescription %}{% endblock %}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="{% block metaDescription %}{% endblock %}">
 
-		<title>
-			{% block title %}Welcome
-			{% endblock %}
-		</title>
+	<title>
+		{% block title %}Welcome{% endblock %}
+	</title>
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+		integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/style.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/home-custom.css') }}" rel="stylesheet">
 
-		<link
-		href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
-		<!-- Custom styles for this template -->
-		<link href="{{asset('assets/css/carousel.css')}}" rel="stylesheet">
-		<link href="{{asset('assets/css/style.min.css')}}" rel="stylesheet"> {% block stylesheet %}{% endblock %}
+	{% block stylesheet %}{% endblock %}
+</head>
 
-		</head>
-		<body>
+<body>
+	<header>
+		{% include "partials/header.html.twig" %}
+	</header>
 
-			<header>
-				{% include "partials/header.html.twig" %}
-			</header>
-
-			<main>
-
-				{% if block('carousel') is defined %}
-					<div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-							<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-							<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+	<main>
+		{% if block('carousel') is defined %}
+		<div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+			<div class="carousel-indicators">
+				<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+					aria-current="true" aria-label="Slide 1"></button>
+				<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+				<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+			</div>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<rect width="100%" height="100%" fill="#FF69B4" />
+					</svg>
+					<div class="container">
+						<div class="carousel-caption text-start">
+							<h1 class="display-3 fw-bold">Welcome to PinkKiwi</h1>
+							<p class="lead fs-3 opacity-75">Discover our exclusive collection of premium products</p>
+							<p>
+								<a class="btn btn-lg btn-light" href="{{ path('products') }}">Shop Now</a>
+							</p>
 						</div>
-						<div class="carousel-inner">
-							<div class="carousel-item active">
-								<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveaspectratio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-								<div class="container">
-									<div class="carousel-caption text-start">
-										<h1>Example headline.</h1>
-										<p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p>
-										<p>
-											<a class="btn btn-lg btn-primary" href="#">Sign up today</a>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveaspectratio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-								<div class="container">
-									<div class="carousel-caption">
-										<h1>Another example headline.</h1>
-										<p>Some representative placeholder content for the second slide of the carousel.</p>
-										<p>
-											<a class="btn btn-lg btn-primary" href="#">Learn more</a>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveaspectratio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
-								<div class="container">
-									<div class="carousel-caption text-end">
-										<h1>One more for good measure.</h1>
-										<p>Some representative placeholder content for the third slide of this carousel.</p>
-										<p>
-											<a class="btn btn-lg btn-primary" href="#">Browse gallery</a>
-										</p>
-									</div>
-								</div>
-							</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<rect width="100%" height="100%" fill="#9370DB" />
+					</svg>
+					<div class="container">
+						<div class="carousel-caption">
+							<h1 class="display-3 fw-bold">New Arrivals</h1>
+							<p class="lead fs-3">Check out our latest products just for you</p>
+							<p>
+								<a class="btn btn-lg btn-light" href="{{ path('products') }}">Explore Collection</a>
+							</p>
 						</div>
-						<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
 					</div>
-				{% endif %}
-				<div class="container marketing"> {% block content %}{% endblock %}
-
+				</div>
+				<div class="carousel-item">
+					<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+						aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+						<rect width="100%" height="100%" fill="#20B2AA" />
+					</svg>
+					<div class="container">
+						<div class="carousel-caption text-end">
+							<h1 class="display-3 fw-bold">Quality Guaranteed</h1>
+							<p class="lead fs-3 opacity-75">We offer only the best products at the best prices</p>
+							<p>
+								<a class="btn btn-lg btn-light" href="{{ path('products') }}">Browse Gallery</a>
+							</p>
+						</div>
 					</div>
-					<div>
-					
-					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+		{% endif %}
 
-					<!-- FOOTER -->
-					<footer class="container-fluid">
-						{% include "partials/footer.html.twig" %}
-					</footer>
-				</main>
+		<div class="container marketing">
+			{% block content %}{% endblock %}
+		</div>
+	</main>
 
-				<script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
+	<footer class="footer">
+		{% include "partials/footer.html.twig" %}
+	</footer>
 
-				<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+	<script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	{% block javascript %}{% endblock %}
+</body>
 
-				{% block javascript %}{% endblock %}
-
-			</body>
-		</html>
+</html>

@@ -2,47 +2,26 @@
 {% block title %}Our Products - My New Boutique
 {% endblock %}
 {% block content %}
-	<div class="container mt-4">
-		<h1 class="mb-4">Our Products</h1>
-		<div class="row">
-			<div class="col-md-3">
-				<h3>Filters</h3>
-				{{ form_start(form) }}
-				{{ form_end(form) }}
-			</div>
-			<div class="col-md-9">
-				{% if products is empty %}
-					<div class="alert alert-danger">There are no products matching the selected criteria.</div>
-				{% endif %}
-				<div class="row row-cols-1 row-cols-md-3 g-4">
-					{% for product in products %}
-						<div class="col">
-							<div class="mb-3">
-								{% for i in 1..5 %}
-									{% if i <= product.getAvgRatings %}
-										<a href="{{ path('comment_product', {'slug': product.slug}) }}"><i class="fas fa-star text-warning"></i></a>
-									{% else %}
-										<a href="{{ path('comment_product', {'slug': product.slug}) }}"><i class="far fa-star text-warning"></i></a>
-									{% endif %}
-								{% endfor %}
-							</div>
-							<div class="card product-item">
-								<a href="{{ path('product', {'slug':product.slug}) }}">
-									<img src="{{ product.picture }}" alt="{{ product.name }}" class="card-img-top img-fluid img-thumbnail rounded">
-								</a>
-								<div class="card-body">
-									<h5 class="card-title" style="font-weight:bold">{{ product.name }}</h5>
-									<p class="card-text text-muted">{{ product.subtitle }}</p>
-									<div class="price">{{ (product.price/100) | number_format(2) }}
-										€</div>
-									<div class="category">Type:
-										{{ product.category.name }}</div>
-								</div>
-							</div>
-						</div>
-					{% endfor %}
+<div class="container mt-4">
+	<h1 class="mb-4">Our Products</h1>
+	<div class="row">
+		<div class="col-md-3">
+			<h3>Filters</h3>
+			{{ form_start(form) }}
+			{{ form_end(form) }}
+		</div>
+		<div class="col-md-9">
+			{% if products is empty %}
+			<div class="alert alert-danger">There are no products matching the selected criteria.</div>
+			{% endif %}
+			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+				{% for product in products %}
+				<div class="col">
+					{% include 'components/product_card.html.twig' with {'product': product} %}
 				</div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}
