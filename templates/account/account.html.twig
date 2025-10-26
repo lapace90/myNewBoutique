@@ -1,115 +1,111 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Compte - {{ app.user.firstName }}{% endblock %}
+{% block title %}My Account - {{ app.user.firstName }}{% endblock %}
 
 {% block content %}
 <div class="account-page">
-	{# Header de bienvenue #}
+	{# Welcome Header #}
 	<div class="account-header">
 		<div class="account-welcome-icon">
 			<i class="fas fa-user-circle"></i>
 		</div>
-		<h1>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}!</h1>
+		<h1>Welcome, {{ app.user.firstName }} {{ app.user.lastName }}!</h1>
 		<p><i class="fas fa-envelope me-2"></i>{{ app.user.email }}</p>
 	</div>
 
-{# Dashboard avec statistiques #}
-    <div class="stats-grid">
-        {% include 'components/account/stat_card.html.twig' with {
-            'icon': 'fa-shopping-bag',
-            'title': 'Mes Commandes',
-            'value': orders|length,
-            'color': 'primary',
-            'subtitle': orders|length > 0 ? 'Commande' ~ (orders|length > 1 ? 's' : '') ~ ' validée' ~ (orders|length > 1 ? 's' : '') : 'Aucune commande'
-        } %}
-
-        {# Statut de fidélité basé sur le nombre de commandes #}
-        {% set loyaltyStatus = orders|length == 0 ? 'Nouveau' : (orders|length < 3 ? 'Bronze' : (orders|length < 5 ? 'Argent' : 'Or')) %}
-        {% set loyaltyIcon = orders|length == 0 ? '🌱' : (orders|length < 3 ? '🥉' : (orders|length < 5 ? '🥈' : '🥇')) %}
-        
-        {% include 'components/account/stat_card.html.twig' with {
-            'icon': 'fa-star',
-            'title': 'Ma Fidélité',
-            'value': loyaltyIcon ~ ' ' ~ loyaltyStatus,
-            'color': 'warning',
-            'subtitle': orders|length > 0 ? orders|length ~ ' commande' ~ (orders|length > 1 ? 's' : '') ~ ' validée' ~ (orders|length > 1 ? 's' : '') : 'Commencez votre aventure!'
-        } %}
-
-        {# Bons de réduction (pour l'instant 0, à implémenter plus tard) #}
-        {% set coupons = 0 %}
-        
-        {% include 'components/account/stat_card.html.twig' with {
-            'icon': 'fa-ticket-alt',
-            'title': 'Bons de Réduction',
-            'value': coupons,
-            'color': 'success',
-            'subtitle': coupons > 0 ? 'Utilisable' ~ (coupons > 1 ? 's' : '') ~ ' maintenant!' : 'Bientôt disponible!'
-        } %}
-
+	{# Dashboard with Stats #}
+	<div class="stats-grid">
 		{% include 'components/account/stat_card.html.twig' with {
-		'icon': 'fa-comments',
-		'title': 'Mes Avis',
-		'value': app.user.comments|length,
-		'color': 'warning',
-		'subtitle': 'Avis laissé' ~ (app.user.comments|length > 1 ? 's' : '')
+		'icon': 'fa-shopping-bag',
+		'title': 'My Orders',
+		'value': orders|length,
+		'color': 'primary',
+		'subtitle': orders|length > 0 ? 'Validated order' ~ (orders|length > 1 ? 's' : '') : 'No orders'
 		} %}
-    </div>
 
-	{# Navigation par onglets #}
+		{# Loyalty status based on number of orders #}
+		{% set loyaltyStatus = orders|length == 0 ? 'New' : (orders|length < 3 ? 'Bronze' : (orders|length < 5
+			? 'Silver' : 'Gold' )) %} {% set loyaltyIcon=orders|length==0 ? '🌱' : (orders|length < 3 ? '🥉' :
+			(orders|length < 5 ? '🥈' : '🥇' )) %} {% include 'components/account/stat_card.html.twig' with { 'icon'
+			: 'fa-star' , 'title' : 'My Loyalty' , 'value' : loyaltyIcon ~ ' ' ~ loyaltyStatus, 'color' : 'warning'
+			, 'subtitle' : orders|length> 0 ? orders|length ~ ' validated order' ~ (orders|length > 1 ? 's' : '') :
+			'Start your adventure!'
+			} %}
+
+			{# Coupons (currently 0, to implement later) #}
+			{% set coupons = 0 %}
+
+			{% include 'components/account/stat_card.html.twig' with {
+			'icon': 'fa-ticket-alt',
+			'title': 'Coupons',
+			'value': coupons,
+			'color': 'success',
+			'subtitle': coupons > 0 ? 'Available now!' : 'Coming soon!'
+			} %}
+
+			{% include 'components/account/stat_card.html.twig' with {
+			'icon': 'fa-comments',
+			'title': 'My Reviews',
+			'value': app.user.comments|length,
+			'color': 'warning',
+			'subtitle': 'Review' ~ (app.user.comments|length > 1 ? 's' : '') ~ ' left'
+			} %}
+	</div>
+
+	{# Tab Navigation #}
 	{% include 'components/account/nav_tabs.html.twig' with {
 	'tabs': [
-	{'id': 'infos', 'label': 'Mes Informations', 'icon': 'fa-user', 'active': true},
-	{'id': 'orders', 'label': 'Mes Commandes', 'icon': 'fa-shopping-bag', 'active': false},
-	{'id': 'addresses', 'label': 'Mes Adresses', 'icon': 'fa-map-marker-alt', 'active': false},
-	{'id': 'security', 'label': 'Sécurité', 'icon': 'fa-lock', 'active': false}
+	{'id': 'infos', 'label': 'My Information', 'icon': 'fa-user', 'active': true},
+	{'id': 'orders', 'label': 'My Orders', 'icon': 'fa-shopping-bag', 'active': false},
+	{'id': 'addresses', 'label': 'My Addresses', 'icon': 'fa-map-marker-alt', 'active': false},
+	{'id': 'security', 'label': 'Security', 'icon': 'fa-lock', 'active': false}
 	]
 	} %}
 
-	{# Contenu des onglets #}
+	{# Tab Content #}
 	<div class="tab-content">
-		{# Onglet: Mes Informations #}
+		{# Tab: My Information #}
 		<div class="tab-pane fade show active" id="infos" role="tabpanel">
-			<h3><i class="fas fa-user me-2"></i>Mes Informations Personnelles</h3>
+			<h3><i class="fas fa-user me-2"></i>Personal Information</h3>
 
 			{% include 'components/account/info_section.html.twig' with {
-			'title': 'Informations de compte',
+			'title': 'Account information',
 			'icon': 'fa-id-card',
 			'items': [
-			{'label': 'Prénom', 'value': app.user.firstName},
-			{'label': 'Nom', 'value': app.user.lastName},
+			{'label': 'First Name', 'value': app.user.firstName},
+			{'label': 'Last Name', 'value': app.user.lastName},
 			{'label': 'Email', 'value': app.user.email},
-			{'label': 'Statut du compte', 'value': app.user.active ? 'Actif ✅' : 'Inactif ❌'}
+			{'label': 'Account Status', 'value': app.user.active ? 'Active ✅' : 'Inactive ❌'}
 			]
 			} %}
 
 			<div class="quick-actions">
 				<a href="{{ path('account_address') }}" class="quick-action-card">
 					<i class="fas fa-map-marker-alt"></i>
-					<h4>Gérer mes adresses</h4>
+					<h4>Manage addresses</h4>
 				</a>
 				<a href="{{ path('account_password') }}" class="quick-action-card">
 					<i class="fas fa-key"></i>
-					<h4>Modifier mon mot de passe</h4>
+					<h4>Change password</h4>
 				</a>
 				<a href="{{ path('account_order') }}" class="quick-action-card">
 					<i class="fas fa-box"></i>
-					<h4>Voir mes commandes</h4>
+					<h4>View orders</h4>
 				</a>
 			</div>
 		</div>
 
-		{# Onglet: Mes Commandes #}
+		{# Tab: My Orders #}
 		<div class="tab-pane fade" id="orders" role="tabpanel">
-			<h3><i class="fas fa-shopping-bag me-2"></i>Historique de mes commandes</h3>
+			<h3><i class="fas fa-shopping-bag me-2"></i>Order History</h3>
 
 			{% if orders|length == 0 %}
 			<div class="empty-state">
 				<i class="fas fa-shopping-cart"></i>
-				<h4>Aucune commande pour le moment</h4>
-				<p>Vous n'avez pas encore passé de commande.</p>
+				<h4>No orders yet</h4>
+				<p>You haven't placed any orders yet.</p>
 				<a href="{{ path('products') }}" class="btn btn-primary btn-lg">
-					{# <i class="fas fa-shopping-bag me-2"></i> #}
-					Découvrir nos produits
+					Discover our products
 				</a>
 			</div>
 			{% else %}
@@ -117,11 +113,11 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Référence</th>
+							<th>Reference</th>
 							<th>Date</th>
-							<th>Produits</th>
+							<th>Products</th>
 							<th>Total</th>
-							<th>Statut</th>
+							<th>Status</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -129,20 +125,20 @@
 						{% for order in orders %}
 						<tr>
 							<td><span class="badge bg-secondary">{{ order.reference }}</span></td>
-							<td>{{ order.createdAt|date("d/m/Y") }}</td>
-							<td>{{ order.orderDetails|length }} article{{ order.orderDetails|length > 1 ? 's' : '' }}
+							<td>{{ order.createdAt|date("m/d/Y") }}</td>
+							<td>{{ order.orderDetails|length }} item{{ order.orderDetails|length > 1 ? 's' : '' }}
 							</td>
-							<td class="fw-bold">{{ ((order.carrier.price + order.total) / 100)|number_format(2, ',', '
-								') }} €</td>
+							<td class="fw-bold">{{ ((order.carrier.price + order.total) / 100)|number_format(2, '.',
+								',') }} €</td>
 							<td>
 								<span class="badge bg-success">
-									<i class="fas fa-check-circle me-1"></i>Payée
+									<i class="fas fa-check-circle me-1"></i>Paid
 								</span>
 							</td>
 							<td>
 								<a href="{{ path('account_order_show', {'reference': order.reference}) }}"
 									class="btn btn-outline-primary">
-									<i class="fas fa-eye me-1"></i>Voir
+									<i class="fas fa-eye me-1"></i>View
 								</a>
 							</td>
 						</tr>
@@ -153,61 +149,61 @@
 			{% endif %}
 		</div>
 
-		{# Onglet: Mes Adresses #}
+		{# Tab: My Addresses #}
 		<div class="tab-pane fade" id="addresses" role="tabpanel">
-			<h3><i class="fas fa-map-marker-alt me-2"></i>Mes Adresses de livraison</h3>
+			<h3><i class="fas fa-map-marker-alt me-2"></i>Delivery Addresses</h3>
 
 			{% if app.user.addresses|length == 0 %}
 			<div class="empty-state">
 				<i class="fas fa-map-marked-alt"></i>
-				<h4>Aucune adresse enregistrée</h4>
-				<p>Ajoutez une adresse de livraison pour faciliter vos commandes.</p>
+				<h4>No saved addresses</h4>
+				<p>Add a delivery address to make ordering easier.</p>
 				<a href="{{ path('account_address') }}" class="btn btn-primary btn-lg">
-					<i class="fas fa-plus me-2"></i>Ajouter une adresse
+					<i class="fas fa-plus me-2"></i>Add address
 				</a>
 			</div>
 			{% else %}
 			<div class="alert alert-info d-flex align-items-center mb-4">
 				<i class="fas fa-info-circle fa-2x me-3"></i>
 				<div>
-					<h5 class="alert-heading mb-1">{{ app.user.addresses|length }} adresse{{ app.user.addresses|length >
-						1 ? 's' : '' }} enregistrée{{ app.user.addresses|length > 1 ? 's' : '' }}</h5>
-					<p class="mb-0">Gérez vos adresses de livraison sur la page dédiée.</p>
+					<h5 class="alert-heading mb-1">{{ app.user.addresses|length }} saved address{{
+						app.user.addresses|length > 1 ? 'es' : '' }}</h5>
+					<p class="mb-0">Manage your delivery addresses on the dedicated page.</p>
 				</div>
 			</div>
 
 			<div class="text-center py-5">
 				<i class="fas fa-map-marked-alt fa-4x text-primary mb-4" style="opacity: 0.3;"></i>
-				<h4 class="mb-3">Vos adresses sont prêtes</h4>
-				<p class="text-muted mb-4">Consultez et modifiez vos adresses de livraison</p>
+				<h4 class="mb-3">Your addresses are ready</h4>
+				<p class="text-muted mb-4">View and edit your delivery addresses</p>
 				<a href="{{ path('account_address') }}" class="btn btn-primary btn-lg">
-					<i class="fas fa-cog me-2"></i>Gérer mes adresses
+					<i class="fas fa-cog me-2"></i>Manage addresses
 				</a>
 			</div>
 			{% endif %}
 		</div>
 
-		{# Onglet: Sécurité #}
+		{# Tab: Security #}
 		<div class="tab-pane fade" id="security" role="tabpanel">
-			<h3><i class="fas fa-lock me-2"></i>Sécurité de mon compte</h3>
+			<h3><i class="fas fa-lock me-2"></i>Account Security</h3>
 
 			{% include 'components/account/info_section.html.twig' with {
-			'title': 'Mot de passe',
+			'title': 'Password',
 			'icon': 'fa-key',
 			'editUrl': path('account_password'),
-			'editText': 'Modifier',
+			'editText': 'Change',
 			'items': [
-			{'label': 'Dernier changement', 'value': 'Il y a quelques mois'},
-			{'label': 'Sécurité', 'value': '••••••••'}
+			{'label': 'Last changed', 'value': 'A few months ago'},
+			{'label': 'Security', 'value': '••••••••'}
 			]
 			} %}
 
 			<div class="alert alert-info d-flex align-items-center mt-4">
 				<i class="fas fa-info-circle fa-2x me-3"></i>
 				<div>
-					<h5 class="alert-heading mb-1">Conseil de sécurité</h5>
-					<p class="mb-0">Changez régulièrement votre mot de passe et utilisez un mot de passe fort avec des
-						lettres, chiffres et caractères spéciaux.</p>
+					<h5 class="alert-heading mb-1">Security tip</h5>
+					<p class="mb-0">Change your password regularly and use a strong password with letters, numbers and
+						special characters.</p>
 				</div>
 			</div>
 		</div>

@@ -1,35 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commande {{ order.reference }} - PinkKiwi{% endblock %}
+{% block title %}Order {{ order.reference }} - PinkKiwi{% endblock %}
 
 {% block content %}
 <div class="order-detail-page">
-    {# Bouton retour #}
+    {# Back Button #}
     <div class="text-end mb-3">
         <a href="{{ path('account_order') }}" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Retour à mes commandes
+            <i class="fas fa-arrow-left me-2"></i>Back to Orders
         </a>
     </div>
 
-    {# Header de la commande #}
+    {# Order Header #}
     <div class="order-detail-header text-center mb-5">
         <h1 class="display-4 fw-bold section-title mb-3">
-            <i class="fas fa-receipt me-3"></i>Commande {{ order.reference }}
+            <i class="fas fa-receipt me-3"></i>Order {{ order.reference }}
         </h1>
         <div class="order-status-badge">
             <span class="badge bg-success">
-                <i class="fas fa-check-circle me-2"></i>Payée
+                <i class="fas fa-check-circle me-2"></i>Paid
             </span>
         </div>
     </div>
 
     <div class="row">
-        {# Colonne gauche - Infos et produits #}
+        {# Left Column - Info and Products #}
         <div class="col-lg-8 mb-4">
-            {# Informations de la commande #}
+            {# Order Information #}
             <div class="order-detail-card mb-4">
                 <h3 class="card-title">
-                    <i class="fas fa-info-circle me-2"></i>Informations de commande
+                    <i class="fas fa-info-circle me-2"></i>Order Information
                 </h3>
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -38,8 +38,8 @@
                                 <i class="fas fa-calendar"></i>
                             </div>
                             <div>
-                                <span class="info-label">Date de commande</span>
-                                <span class="info-value">{{ order.createdAt|date('d/m/Y à H:i') }}</span>
+                                <span class="info-label">Order Date</span>
+                                <span class="info-value">{{ order.createdAt|date('m/d/Y at H:i') }}</span>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                                 <i class="fas fa-hashtag"></i>
                             </div>
                             <div>
-                                <span class="info-label">Référence</span>
+                                <span class="info-label">Reference</span>
                                 <span class="info-value">{{ order.reference }}</span>
                             </div>
                         </div>
@@ -57,20 +57,20 @@
                 </div>
             </div>
 
-            {# Adresse de livraison #}
+            {# Delivery Address #}
             <div class="order-detail-card mb-4">
                 <h3 class="card-title">
-                    <i class="fas fa-map-marker-alt me-2"></i>Adresse de livraison
+                    <i class="fas fa-map-marker-alt me-2"></i>Delivery Address
                 </h3>
                 <div class="delivery-address">
                     {{ order.delivery | replace({'[br]': '<br>'}) | raw }}
                 </div>
             </div>
 
-            {# Transporteur #}
+            {# Carrier #}
             <div class="order-detail-card mb-4">
                 <h3 class="card-title">
-                    <i class="fas fa-truck me-2"></i>Mode de livraison
+                    <i class="fas fa-truck me-2"></i>Shipping Method
                 </h3>
                 <div class="carrier-info">
                     <div class="carrier-name">{{ order.carrier.name }}</div>
@@ -78,10 +78,10 @@
                 </div>
             </div>
 
-            {# Produits commandés #}
+            {# Ordered Products #}
             <div class="order-detail-card">
                 <h3 class="card-title">
-                    <i class="fas fa-box me-2"></i>Produits commandés ({{ order.orderDetails|length }})
+                    <i class="fas fa-box me-2"></i>Ordered Products ({{ order.orderDetails|length }})
                 </h3>
                 
                 <div class="products-list">
@@ -103,24 +103,24 @@
                         <div class="product-total">
                             <div class="total-price">{{ (item.price * item.quantity / 100)|number_format(2, ',', ' ') }} €</div>
                             
-                            {# Formulaire d'avis #}
+                            {# Review Form #}
                             <div class="rating-section mt-3">
                                 <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#rating-{{ item.id }}">
-                                    <i class="fas fa-star me-1"></i>Laisser un avis
+                                    <i class="fas fa-star me-1"></i>Leave a review
                                 </button>
                                 <div class="collapse mt-2" id="rating-{{ item.id }}">
                                     <form action="{{ path('comment_product', {'slug': item.product.slug}) }}" method="post" class="rating-form">
                                         <div class="star-rating mb-2">
                                             <select name="rating" class="form-select form-select-sm">
                                                 <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-                                                <option value="4">⭐⭐⭐⭐ Très bien</option>
-                                                <option value="3">⭐⭐⭐ Bien</option>
-                                                <option value="2">⭐⭐ Moyen</option>
-                                                <option value="1">⭐ Décevant</option>
+                                                <option value="4">⭐⭐⭐⭐ Very good</option>
+                                                <option value="3">⭐⭐⭐ Good</option>
+                                                <option value="2">⭐⭐ Average</option>
+                                                <option value="1">⭐ Disappointing</option>
                                             </select>
                                         </div>
                                         <button type="submit" class="btn btn-primary  w-100">
-                                            <i class="fas fa-paper-plane me-1"></i>Envoyer
+                                            <i class="fas fa-paper-plane me-1"></i>Send
                                         </button>
                                     </form>
                                 </div>
@@ -132,20 +132,20 @@
             </div>
         </div>
 
-        {# Colonne droite - Résumé #}
+        {# Right Column - Summary #}
         <div class="col-lg-4">
             <div class="order-summary-detail sticky-top" style="top: 100px;">
                 <h3 class="summary-title">
-                    <i class="fas fa-file-invoice-dollar me-2"></i>Récapitulatif
+                    <i class="fas fa-file-invoice-dollar me-2"></i>Summary
                 </h3>
                 
                 <div class="summary-content">
                     <div class="summary-row">
-                        <span>Sous-total</span>
+                        <span>Subtotal</span>
                         <span>{{ (order.total / 100)|number_format(2, ',', ' ') }} €</span>
                     </div>
                     <div class="summary-row">
-                        <span>Livraison</span>
+                        <span>Shipping</span>
                         <span>{{ (order.carrier.price / 100)|number_format(2, ',', ' ') }} €</span>
                     </div>
                     <hr class="my-3">
@@ -157,10 +157,10 @@
 
                 <div class="summary-actions mt-4">
                     <a href="{{ path('products') }}" class="btn btn-primary btn-lg w-100 mb-3">
-                        <i class="fas fa-shopping-bag me-2"></i>Continuer mes achats
+                        <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
                     </a>
                     <a href="{{ path('account') }}" class="btn btn-outline-secondary btn-lg w-100">
-                        <i class="fas fa-user me-2"></i>Mon compte
+                        <i class="fas fa-user me-2"></i>My Account
                     </a>
                 </div>
 
@@ -168,8 +168,8 @@
                     <div class="help-box">
                         <i class="fas fa-question-circle"></i>
                         <div>
-                            <strong>Besoin d'aide?</strong>
-                            <p>Contactez notre service client</p>
+                            <strong>Need help?</strong>
+                            <p>Contact our customer service</p>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,7 @@ class AccountAddressController extends AbstractController
             'account_address' => 'AccountAddressController',
         ]);
     }
-    
+
     #[Route('/account/address_list', name: 'address_list')]
     public function show(): Response
     {

@@ -83,7 +83,7 @@ class ProductController extends AbstractController
 
             $this->addFlash(
                 'succes',
-                 'Your review for ' . $product->getName() . ' has been successfully saved!'
+                'Your review for ' . $product->getName() . ' has been successfully saved!'
             );
             return $this->redirectToRoute('product', ['slug' => $product->getSlug()]);
         }
