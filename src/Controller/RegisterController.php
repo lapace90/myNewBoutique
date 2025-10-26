@@ -18,7 +18,7 @@ class RegisterController extends AbstractController
 
     private $passwordHasher;
     private $manager;
-   
+
 
     public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager)
     {
@@ -55,18 +55,15 @@ class RegisterController extends AbstractController
             $token = sha1($user->getEmail() . $user->getPassword());
 
             // Envoi d'un mail
-            $contentEmail = 'Bonjour' . $user->getEmail() . '<br>
-        Merci de votre inscription, le compte a été créé et doit être activé via le lien ci-dessous<br>
-        https://' . $_SERVER['HTTP_HOST'] . '/inscription/' . $user->getId() . '/' . $token;
-            mail($user->getEmail(), 'Activation de compte', $contentEmail);
-
+            $contentEmail = 'Hello ' . $user->getEmail() . '<br>
+Thank you for your registration, the account has been created and must be activated via the link below<br>
+https://' . $_SERVER['HTTP_HOST'] . '/inscription/' . $user->getId() . '/' . $token;
+            mail($user->getEmail(), 'Account Activation', $contentEmail);
 
             $this->addFlash(
                 'success',
-                'Le compte ' . $user->getEmail() . ' a bien été créé et doit être activé, un mail vous a été envoyé'
+                'The account ' . $user->getEmail() . ' has been created and must be activated, an email has been sent to you'
             );
-
-
 
             return $this->redirectToRoute('app_login');
         }
@@ -80,25 +77,19 @@ class RegisterController extends AbstractController
     #[Route('/inscription/{id}/{token}', name: 'registerActivation')]
     public function activation(Request $request, User $user, $token): Response
     {
-
-        // dd($user);
-
-
-
         if (!$user->isActive()) {
 
             $verifToken = sha1($user->getEmail() . $user->getPassword());
 
             if ($token == $verifToken) {
 
-                // dd('ok');
                 $user->setActive(true);
 
                 $this->manager->flush();
 
                 $this->addFlash(
                     'success',
-                    'Compte activé avec succes'
+                    'Account successfully activated'
                 );
 
                 return $this->redirectToRoute('account');
@@ -106,7 +97,7 @@ class RegisterController extends AbstractController
 
                 $this->addFlash(
                     'danger',
-                    'Lien incorrect'
+                    'Incorrect link'
                 );
 
                 return $this->redirectToRoute('account');
@@ -115,7 +106,7 @@ class RegisterController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Le compte ' . $user->getEmail() . ' est déjà activé'
+                 'The account ' . $user->getEmail() . ' is already activated'
             );
 
             return $this->redirectToRoute('account');

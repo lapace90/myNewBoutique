@@ -68,7 +68,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/account/mes-commandes/{slug}/comment', name: 'comment_product')]
+    #[Route('/account/my-orders/{slug}/comment', name: 'comment_product')]
     public function comment(Product $product, Request $request, EntityManagerInterface $manager)
     {
         $comment = new Comment();
