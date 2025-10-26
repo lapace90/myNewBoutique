@@ -16,10 +16,28 @@
     box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
 }
 
+.btn-outline-secondary {
+    border: 2px solid var(--purple);
+    color: var(--purple);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.5rem;
+    transition: var(--transition-base);
+}
+
 .btn-outline-secondary:hover {
     background: var(--purple);
     border-color: var(--purple);
     color: white;
+}
+
+.btn-outline-danger {
+    border: 2px solid red;
+    color: red;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.5rem;
+    transition: var(--transition-base);
 }
 
 /* Tous les btn-lg ont les MÊMES dimensions (Bootstrap gère) */
@@ -54,4 +72,5 @@
 .btn-lg.btn-outline-secondary:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
+   
 }
