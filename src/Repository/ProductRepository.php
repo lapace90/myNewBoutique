@@ -79,39 +79,67 @@ class ProductRepository extends ServiceEntityRepository
 
         return $result;
     }
-    public function findByFiltersQuery(SearchFilters $searchFilters) 
-{
-    $qb = $this->createQueryBuilder('p');
-    
-    // Filtre par nom
-    if ($searchFilters->getName()) {
-        $qb->andWhere('p.name LIKE :name')
-           ->setParameter('name', '%'. $searchFilters->getName() .'%');
+    public function findByFiltersQuery(SearchFilters $searchFilters)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        // Filtre par nom
+        if ($searchFilters->getName()) {
+            $qb->andWhere('p.name LIKE :name')
+                ->setParameter('name', '%' . $searchFilters->getName() . '%');
+        }
+
+        // Filtre par prix minimum
+        if ($searchFilters->getMinPrice()) {
+            $qb->andWhere('p.Price >= :minPrice')
+                ->setParameter('minPrice', $searchFilters->getMinPrice());
+        }
+
+        // Filtre par prix maximum
+        if ($searchFilters->getMaxPrice()) {
+            $qb->andWhere('p.Price <= :maxPrice')
+                ->setParameter('maxPrice', $searchFilters->getMaxPrice());
+        }
+
+        // Filtre par catégories
+        if (count($searchFilters->getCategories()) > 0) {
+            $qb->andWhere('p.category IN (:categories)')
+                ->setParameter('categories', $searchFilters->getCategories());
+        }
+
+        // Tri par prix
+        $qb->orderBy('p.Price', 'ASC');
+
+        return $qb->getQuery();
     }
 
-    // Filtre par prix minimum
-    if ($searchFilters->getMinPrice()) {
-        $qb->andWhere('p.Price >= :minPrice')
-           ->setParameter('minPrice', $searchFilters->getMinPrice());
+    /**
+     * Recherche simple par nom de produit avec ordre de pertinence
+     */
+    public function searchByName(string $searchTerm)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb
+            ->where($qb->expr()->orX(
+                $qb->expr()->like('p.name', ':search'),
+                $qb->expr()->like('p.subtitle', ':search'),
+                $qb->expr()->like('p.Description', ':search')
+            ))
+            ->setParameter('search', '%' . $searchTerm . '%')
+            // Prioriser par ordre : nom > subtitle > description
+            ->addSelect(
+                '(CASE 
+                WHEN p.name LIKE :searchTerm THEN 1
+                WHEN p.subtitle LIKE :searchTerm THEN 2
+                ELSE 3
+            END) AS HIDDEN relevance'
+            )
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->orderBy('relevance', 'ASC')
+            ->addOrderBy('p.id', 'DESC')
+            ->getQuery();
     }
-
-    // Filtre par prix maximum
-    if ($searchFilters->getMaxPrice()) {
-        $qb->andWhere('p.Price <= :maxPrice')
-           ->setParameter('maxPrice', $searchFilters->getMaxPrice());
-    }
-
-    // Filtre par catégories
-    if (count($searchFilters->getCategories()) > 0) {
-        $qb->andWhere('p.category IN (:categories)')
-           ->setParameter('categories', $searchFilters->getCategories());
-    }
-
-    // Tri par prix
-    $qb->orderBy('p.Price', 'ASC');
-
-    return $qb->getQuery();
-}
 }
 //    public function findOneBySomeField($value): ?Product
 //    {

@@ -1,42 +1,173 @@
 {% extends 'base.html.twig' %}
-{% block title %}My orders - My boutique PinkKiwi
-{% endblock %}
+
+{% block title %}My Orders - PinkKiwi Boutique{% endblock %}
+
 {% block content %}
-	<h1>My Orders</h1>
-	<p>Dans cet espace , vous pouvez voir toutes vos commandes</p>
-	<a href="{{path('account')}}">Retour</a>
-	<hr>
-	{% if orders | length == 0 %}
-		<p class="text-center">Vous n'avez pas encore passé de commandes</p>
-	{% else %}
+<div class="orders-page">
+    {# Back Button #}
+    <div class="text-end mb-3">
+        <a href="{{ path('account') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back
+        </a>
+    </div>
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Référence</th>
-					<th scope="col">Passée le</th>
-					<th scope="col">Nombre Produit(s)</th>
-					<th scope="col">Total</th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for order in orders %}
-					<tr>
-						<th scope="row">
-							<span class="badge bg-secondary">{{order.reference}}</span>
-						</th>
-						<td>{{order.createdAt|date("d/m/Y")}}</td>
-						<td>{{order.orderDetails | length}}</td>
-						<td>{{((order.carrier.price + order.total)/100) | number_format(2)}}
-							€</td>
-						<td>
-							<a href="{{path('account_order_show',{'reference':order.reference})}}">Voir ma commande</a>
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+    {# Centered Header #}
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold section-title mb-2">
+                <i class="fas fa-shopping-bag me-3"></i>My Orders
+            </h1>
+            <p class="lead text-muted">View all your completed orders</p>
+        </div>
+    </div>
 
-	{% endif %}
+    {# Quick Stats #}
+    {% if orders|length > 0 %}
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="quick-stat">
+                <i class="fas fa-shopping-cart"></i>
+                <div>
+                    <div class="stat-value">{{ orders|length }}</div>
+                    <div class="stat-label">Order{{ orders|length > 1 ? 's' : '' }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="quick-stat">
+                <i class="fas fa-box"></i>
+                <div>
+                    {% set totalProducts = 0 %}
+                    {% for order in orders %}
+                        {% set totalProducts = totalProducts + order.orderDetails|length %}
+                    {% endfor %}
+                    <div class="stat-value">{{ totalProducts }}</div>
+                    <div class="stat-label">Product{{ totalProducts > 1 ? 's' : '' }} ordered</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="quick-stat">
+                <i class="fas fa-calendar"></i>
+                <div>
+                    <div class="stat-value">{{ orders|first.createdAt|date("m/d/Y") }}</div>
+                    <div class="stat-label">Last order</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# View Toggle Switch #}
+    <div class="view-toggle mb-4">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary active" id="cardViewBtn" onclick="switchView('card')">
+                <i class="fas fa-th-large me-2"></i>Cards
+            </button>
+            <button type="button" class="btn btn-outline-primary" id="tableViewBtn" onclick="switchView('table')">
+                <i class="fas fa-table me-2"></i>Table
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    {# Empty State #}
+    {% if orders|length == 0 %}
+    <div class="empty-orders">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>No orders yet</h3>
+        <p class="text-muted">You haven't placed any orders yet.</p>
+        <a href="{{ path('products') }}" class="btn btn-primary btn-lg mt-3">
+            <i class="fas fa-shopping-bag me-2"></i>Discover our products
+        </a>
+    </div>
+    {% else %}
+    
+    {# Card View #}
+    <div id="cardView" class="orders-grid">
+        {% for order in orders %}
+            {% include 'components/account/order_card.html.twig' with {'order': order} %}
+        {% endfor %}
+    </div>
+
+    {# Table View #}
+    <div id="tableView" class="table-responsive" style="display: none;">
+        <table class="table table-hover orders-table">
+            <thead>
+                <tr>
+                    <th><i class="fas fa-hashtag me-2"></i>Reference</th>
+                    <th><i class="fas fa-calendar me-2"></i>Date</th>
+                    <th><i class="fas fa-box me-2"></i>Products</th>
+                    <th><i class="fas fa-truck me-2"></i>Carrier</th>
+                    <th><i class="fas fa-euro-sign me-2"></i>Total</th>
+                    <th><i class="fas fa-info-circle me-2"></i>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>
+                        <span class="badge bg-primary">{{ order.reference }}</span>
+                    </td>
+                    <td>{{ order.createdAt|date("m/d/Y") }}</td>
+                    <td>{{ order.orderDetails|length }} item{{ order.orderDetails|length > 1 ? 's' : '' }}</td>
+                    <td>
+                        <i class="fas fa-shipping-fast me-1 text-muted"></i>
+                        {{ order.carrier.name }}
+                    </td>
+                    <td class="fw-bold text-success">
+                        {{ ((order.carrier.price + order.total) / 100)|number_format(2, ',', ' ') }} €
+                    </td>
+                    <td>
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>Paid
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ path('account_order_show', {'reference': order.reference}) }}" 
+                           class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye me-1"></i>View
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+function switchView(view) {
+    const cardView = document.getElementById('cardView');
+    const tableView = document.getElementById('tableView');
+    const cardBtn = document.getElementById('cardViewBtn');
+    const tableBtn = document.getElementById('tableViewBtn');
+    
+    if (view === 'card') {
+        cardView.style.display = 'grid';
+        tableView.style.display = 'none';
+        cardBtn.classList.add('active');
+        tableBtn.classList.remove('active');
+        localStorage.setItem('ordersView', 'card');
+    } else {
+        cardView.style.display = 'none';
+        tableView.style.display = 'block';
+        cardBtn.classList.remove('active');
+        tableBtn.classList.add('active');
+        localStorage.setItem('ordersView', 'table');
+    }
+}
+
+// Restore user's preferred view
+document.addEventListener('DOMContentLoaded', function() {
+    const savedView = localStorage.getItem('ordersView');
+    if (savedView) {
+        switchView(savedView);
+    }
+});
+</script>
 {% endblock %}

@@ -1,6 +1,7 @@
 /* Product Detail Page */
 .product-detail-page {
     padding: 2rem 0;
+    margin-top: 3rem; /* Pour éviter la navbar fixe */
 }
 
 .breadcrumb {

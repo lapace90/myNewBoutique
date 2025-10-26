@@ -42,7 +42,7 @@ class OrderType extends AbstractType
                 ->add('submit', SubmitType::class, [
                     'label' => 'Valider ma commande',
                     'attr' => [
-                    'class' => 'col-12 btn btn-success'
+                    'class' => 'col-12 btn btn-success btn-lg'
                     ]
                     ]);
         }

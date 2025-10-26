@@ -1,26 +1,106 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Purchase - PinkKiwi{% endblock %}
+{% block title %}Commande Validée - PinkKiwi{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-3">Validation Purchase</h1>
+<div class="order-success-page">
+    {# Success Header #}
+    <div class="success-header text-center mb-5">
+        <div class="success-icon mb-4">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h1 class="display-4 fw-bold mb-3">Merci pour votre commande!</h1>
+        <p class="lead text-muted">Votre paiement a été validé avec succès</p>
+    </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <h2>Thank you <3</h2>
-            <p>
-                Bonjour {{ order.user.firstName }} {{ order.user.lastName }}<br><br>
-                Nous vous remercions pour votre commande n°: {{ order.reference }}<br><br>
-                Une Confirmation vient d'être envoyé à l'adresse email: {{ order.user.email }}<br>
-                Votre commande sera livrée par <strong>{{ order.carrier.name }}</strong> à l'adresse suivante:<br>
-                <strong>{{ order.delivery | replace({'[br]': '<br>'}) | raw }}</strong>
-            </p>
-            <hr>
-            Pour suivre votre commande rendez-vous dans votre <a href="{{ path('account') }}">Compte</a>
+        {# Order Details #}
+        <div class="col-lg-6 mb-4">
+            <div class="success-card">
+                <h3 class="success-card-title">
+                    <i class="fas fa-receipt me-2"></i>Détails de votre commande
+                </h3>
+                
+                <div class="order-info-list">
+                    <div class="order-info-item">
+                        <span class="info-label">
+                            <i class="fas fa-user me-2"></i>Client
+                        </span>
+                        <span class="info-value">{{ order.user.firstName }} {{ order.user.lastName }}</span>
+                    </div>
+                    
+                    <div class="order-info-item">
+                        <span class="info-label">
+                            <i class="fas fa-hashtag me-2"></i>Numéro de commande
+                        </span>
+                        <span class="info-value">
+                            <span class="badge bg-primary">{{ order.reference }}</span>
+                        </span>
+                    </div>
+                    
+                    <div class="order-info-item">
+                        <span class="info-label">
+                            <i class="fas fa-envelope me-2"></i>Email de confirmation
+                        </span>
+                        <span class="info-value">{{ order.user.email }}</span>
+                    </div>
+                    
+                    <div class="order-info-item">
+                        <span class="info-label">
+                            <i class="fas fa-truck me-2"></i>Transporteur
+                        </span>
+                        <span class="info-value">{{ order.carrier.name }}</span>
+                    </div>
+                    
+                    <div class="order-info-item">
+                        <span class="info-label">
+                            <i class="fas fa-map-marker-alt me-2"></i>Adresse de livraison
+                        </span>
+                        <span class="info-value">
+                            {{ order.delivery | replace({'[br]': '<br>'}) | raw }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-4 d-flex align-items-center">
+                    <i class="fas fa-info-circle fa-2x me-3"></i>
+                    <div>
+                        <strong>Email de confirmation envoyé!</strong><br>
+                        Un récapitulatif de votre commande a été envoyé à <strong>{{ order.user.email }}</strong>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <img src="\uploads\boxes.png" alt="boxes image" class="img-fluid">
+
+        {# Image and Actions #}
+        <div class="col-lg-6 mb-4">
+            <div class="success-image-card text-center mb-4">
+                <img src="{{ asset('uploads/boxes.png') }}" alt="Commande validée" class="img-fluid">
+            </div>
+
+            <div class="success-actions">
+                <a href="{{ path('account_order') }}" class="btn btn-primary btn-lg w-100 mb-3">
+                    <i class="fas fa-shopping-bag me-2"></i>Voir mes commandes
+                </a>
+                <a href="{{ path('products') }}" class="btn btn-outline-secondary btn-lg w-100">
+                    <i class="fas fa-arrow-left me-2"></i>Continuer mes achats
+                </a>
+            </div>
+
+            <div class="success-features mt-4">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Paiement sécurisé</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-headset"></i>
+                    <span>Support client 24/7</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-undo"></i>
+                    <span>Retours faciles</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

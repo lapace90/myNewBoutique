@@ -44,6 +44,7 @@
 .btn-lg {
     border-radius: 50px;
     font-weight: 700;
+    padding: 0.9rem 2rem;
 }
 
 /* On ajoute juste les couleurs/effets pour chaque type */
@@ -51,6 +52,7 @@
     background: linear-gradient(135deg, var(--pink-primary), var(--purple));
     border: none;
     box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+    
 }
 
 .btn-lg.btn-primary:hover {
@@ -62,6 +64,7 @@
     background: linear-gradient(135deg, #10b981, #059669);
     border: none;
     box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    padding: 0.9rem 2rem;
 }
 
 .btn-lg.btn-success:hover {

@@ -1,0 +1,23 @@
+{#
+    Composant réutilisable : Carte de statistique
+    
+    Props:
+    - icon: string (classe Font Awesome, ex: "fa-shopping-bag")
+    - title: string (titre de la stat)
+    - value: string (valeur à afficher)
+    - color: string (primary, success, info, warning, danger)
+    - subtitle: string (optionnel, texte sous la valeur)
+#}
+
+<div class="stat-card stat-card-{{ color|default('primary') }}">
+    <div class="stat-card-icon">
+        <i class="fas {{ icon }}"></i>
+    </div>
+    <div class="stat-card-content">
+        <h3 class="stat-card-title">{{ title }}</h3>
+        <div class="stat-card-value">{{ value }}</div>
+        {% if subtitle is defined %}
+            <p class="stat-card-subtitle">{{ subtitle }}</p>
+        {% endif %}
+    </div>
+</div>

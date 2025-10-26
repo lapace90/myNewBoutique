@@ -1,7 +1,9 @@
 /* Styles globaux */
 body {
-    background: var(--bg-gradient);
-    padding-top: 80px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f3f4f6 50%, #fdf2f8 100%);
+    padding-top: 3rem;
+    margin-top: 3rem;
+
 }
 
 .container.marketing {

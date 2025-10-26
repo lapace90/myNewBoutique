@@ -1,0 +1,62 @@
+{#
+    Component: Order Card
+    
+    Props:
+    - order: Order entity
+#}
+
+<div class="order-card">
+    <div class="order-card-header">
+        <div class="order-reference">
+            <i class="fas fa-receipt me-2"></i>
+            <span class="badge bg-primary">{{ order.reference }}</span>
+        </div>
+        <div class="order-status">
+            <span class="badge bg-success">
+                <i class="fas fa-check-circle me-1"></i>Paid
+            </span>
+        </div>
+    </div>
+    
+    <div class="order-card-body">
+        <div class="order-info-grid">
+            <div class="order-info-item">
+                <i class="fas fa-calendar text-muted me-2"></i>
+                <div>
+                    <span class="info-label">Date</span>
+                    <span class="info-value">{{ order.createdAt|date("m/d/Y") }}</span>
+                </div>
+            </div>
+            
+            <div class="order-info-item">
+                <i class="fas fa-box text-muted me-2"></i>
+                <div>
+                    <span class="info-label">Items</span>
+                    <span class="info-value">{{ order.orderDetails|length }} product{{ order.orderDetails|length > 1 ? 's' : '' }}</span>
+                </div>
+            </div>
+            
+            <div class="order-info-item">
+                <i class="fas fa-truck text-muted me-2"></i>
+                <div>
+                    <span class="info-label">Carrier</span>
+                    <span class="info-value">{{ order.carrier.name }}</span>
+                </div>
+            </div>
+            
+            <div class="order-info-item">
+                <i class="fas fa-euro-sign text-muted me-2"></i>
+                <div>
+                    <span class="info-label">Total</span>
+                    <span class="info-value fw-bold text-success">{{ ((order.carrier.price + order.total) / 100)|number_format(2, ',', ' ') }} €</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="order-card-footer">
+        <a href="{{ path('account_order_show', {'reference': order.reference}) }}" class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-eye me-1"></i>View Details
+        </a>
+    </div>
+</div>

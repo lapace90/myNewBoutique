@@ -1,47 +1,111 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
 	<div class="container-fluid">
+		{# Brand #}
 		<a class="navbar-brand fw-bold" href="{{ path('home') }}">
-			<i class="fas fa-kiwi-bird"></i> PinkKiwi Boutique
+			<i class="fas fa-kiwi-bird"></i> PinkKiwi
 		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+
+		{# Mobile Toggle #}
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarCollapse">
-			<ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+		<div class="collapse navbar-collapse" id="navbarMain">
+			{# Left Navigation #}
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link {{ app.request.get('_route') == 'home' ? 'active' : '' }}" href="{{ path('home') }}">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link {{ app.request.get('_route') == 'products' ? 'active' : '' }}" href="{{ path('products') }}">Products</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link {{ app.request.get('_route') == 'my_cart' ? 'active' : '' }}" href="{{ path('my_cart') }}">
-						<i class="fas fa-shopping-cart"></i> Cart
+					<a class="nav-link {{ app.request.get('_route') == 'home' ? 'active' : '' }}" href="{{ path('home') }}">
+						<i class="fas fa-home me-1"></i>Home
 					</a>
+				</li>
+
+				{# Products with Dropdown #}
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle {{ app.request.get('_route') == 'products' ? 'active' : '' }}" 
+					   href="{{ path('products') }}" 
+					   id="productsDropdown" 
+					   role="button" 
+					   data-bs-toggle="dropdown">
+						<i class="fas fa-shopping-bag me-1"></i>Products
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="productsDropdown">
+						<li>
+							<a class="dropdown-item" href="{{ path('products') }}">
+								<i class="fas fa-th me-2"></i>All Products
+							</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li class="dropdown-header">
+							<i class="fas fa-tags me-2"></i>Categories
+						</li>
+						{% if categories is defined %}
+							{% for category in categories %}
+							<li>
+								<a class="dropdown-item" href="{{ path('products', {'category': category.id}) }}">
+									{{ category.name }}
+								</a>
+							</li>
+							{% endfor %}
+						{% endif %}
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item text-danger" href="{{ path('products', {'promo': 1}) }}">
+								<i class="fas fa-percentage me-2"></i>Sales & Promotions
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item text-warning" href="{{ path('products', {'occasion': 1}) }}">
+								<i class="fas fa-recycle me-2"></i>Pre-owned
+							</a>
+						</li>
+					</ul>
 				</li>
 			</ul>
 
-			<ul class="navbar-nav ms-auto mb-2 mb-md-0">
+			{# Search Bar - Center #}
+			<form class="navbar-search mx-lg-4" action="{{ path('products') }}" method="GET">
+				<div class="search-wrapper">
+					<input class="form-control" 
+					       type="search" 
+					       name="search" 
+					       placeholder="Search for a product..." 
+					       value="{{ app.request.get('search') }}"
+					       autocomplete="off">
+					<button class="btn-search" type="submit">
+						<i class="fas fa-search"></i>
+					</button>
+				</div>
+			</form>
+
+			{# Right Navigation #}
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				{# Cart with Badge #}
+				<li class="nav-item">
+					<a class="nav-link position-relative {{ app.request.get('_route') == 'my_cart' ? 'active' : '' }}" 
+					   href="{{ path('my_cart') }}">
+						<i class="fas fa-shopping-cart"></i>
+						<span class="d-none d-lg-inline ms-1">Cart</span>
+						{% if app.session.get('cart')|length > 0 %}
+						<span class="cart-badge">{{ app.session.get('cart')|length }}</span>
+						{% endif %}
+					</a>
+				</li>
+
 				{% if app.user %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('account') }}">
-							<i class="fas fa-user"></i> My Account
+							<i class="fas fa-user me-1"></i>My Account
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_logout') }}">
-							<i class="fas fa-sign-out-alt"></i> Logout
+							<i class="fas fa-sign-out-alt me-1"></i>Logout
 						</a>
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('register') }}">
-							<i class="fas fa-user-plus"></i> Sign Up
-						</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_login') }}">
-							<i class="fas fa-sign-in-alt"></i> Login
+							<i class="fas fa-sign-in-alt me-1"></i>Login
 						</a>
 					</li>
 				{% endif %}
@@ -50,11 +114,13 @@
 	</div>
 </nav>
 
+{# Flash Messages #}
 {% for label, messages in app.flashes %}
-	<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+	<div class="alert alert-{{ label }} alert-dismissible fade show flash-message" role="alert">
 		{% for message in messages %}
+			<i class="fas fa-{{ label == 'success' ? 'check-circle' : label == 'danger' ? 'exclamation-circle' : 'info-circle' }} me-2"></i>
 			{{ message }}
 		{% endfor %}
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 	</div>
 {% endfor %}

@@ -1,29 +1,182 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Leave a Review - {{ product.name }}{% endblock %}
+
 {% block content %}
-	<h1 class="mt-3">Poster un commentaire sur le produit :
-		{{product.name}}</h1>
-	{% if product.isProductFromUser(app.user) %}
-		{% if product.getCommentFromUser(app.user) is null %}
-			<div class="alert alert-light">
-				<h2>Votre avis compte</h2>
-				{{ form_start(form) }}
-				{{ form_end(form) }}
-			</div>
-		{% else %}
-			<div class="alert alert-danger" role="alert">
-				<hr>
-				<h4 class="alert-heading">Vous avez déjà laissé un commentaire sur l'article
-					{{product.name}}</h4>
-				<hr>
-			</div>
-		{% endif %}
-	{% else %}
-		<div class="alert alert-danger" role="alert">
-			<hr>
-			<h4 class="alert-heading">Vous n'avez pas acheté l'article
-				{{product.name}}</h4>
-			<hr>
-		</div>
-	{% endif %}
-	<a href="{{path('account')}}">Retour à votre compte</a>
+<div class="comment-page">
+    {# Back Button #}
+    <div class="text-end mb-3">
+        <a href="{{ path('account_order') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Orders
+        </a>
+    </div>
+
+    {# Header #}
+    <div class="comment-header text-center mb-5">
+        <h1 class="display-4 fw-bold section-title mb-3">
+            <i class="fas fa-star me-3"></i>Your Opinion Matters!
+        </h1>
+        <p class="lead text-muted">Share your experience with this product</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            {# Product Card #}
+            <div class="product-review-card mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <div class="product-image-review">
+                            <img src="{{ product.picture }}" alt="{{ product.name }}" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3 class="product-name-review">{{ product.name }}</h3>
+                        <p class="product-subtitle-review">{{ product.subtitle }}</p>
+                        <div class="product-price-review">
+                            {{ (product.price / 100)|number_format(2, '.', ',') }} €
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Form or Messages #}
+            {% if product.isProductFromUser(app.user) %}
+                {% if product.getCommentFromUser(app.user) is null %}
+                    {# Review Form #}
+                    <div class="review-form-card">
+                        <h3 class="form-card-title">
+                            <i class="fas fa-pen me-2"></i>Write Your Review
+                        </h3>
+                        
+                        {{ form_start(form, {'attr': {'class': 'review-form'}}) }}
+                        
+                        {# Rating Stars #}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-star text-warning me-2"></i>Your Rating
+                            </label>
+                            <div class="star-rating-input">
+                                {{ form_widget(form.rating, {'attr': {'class': 'form-control form-control-lg', 'min': '1', 'max': '5'}}) }}
+                                <div class="star-display mt-2">
+                                    <i class="far fa-star star" data-value="1"></i>
+                                    <i class="far fa-star star" data-value="2"></i>
+                                    <i class="far fa-star star" data-value="3"></i>
+                                    <i class="far fa-star star" data-value="4"></i>
+                                    <i class="far fa-star star" data-value="5"></i>
+                                </div>
+                                <small class="text-muted">Click on the stars to rate</small>
+                            </div>
+                        </div>
+
+                        {# Content #}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-comment me-2"></i>Your Review
+                            </label>
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': '6', 'placeholder': 'Share your experience with this product...'}}) }}
+                            <small class="text-muted">Minimum 10 characters</small>
+                        </div>
+
+                        {# Submit #}
+                        <div class="d-grid gap-2">
+                            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                {% else %}
+                    {# Already Reviewed #}
+                    <div class="message-card message-already">
+                        <div class="message-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="message-content">
+                            <h3>You've Already Left a Review</h3>
+                            <p>Thank you for your feedback! You've already shared your opinion about <strong>{{ product.name }}</strong>.</p>
+                            <div class="message-actions mt-4">
+                                <a href="{{ path('product', {'slug': product.slug}) }}" class="btn btn-primary">
+                                    <i class="fas fa-eye me-2"></i>View Product
+                                </a>
+                                <a href="{{ path('account_order') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-shopping-bag me-2"></i>My Orders
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                {# Not Purchased #}
+                <div class="message-card message-error">
+                    <div class="message-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="message-content">
+                        <h3>Product Not Purchased</h3>
+                        <p>You must have purchased <strong>{{ product.name }}</strong> to leave a review.</p>
+                        <div class="message-actions mt-4">
+                            <a href="{{ path('product', {'slug': product.slug}) }}" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart me-2"></i>Buy This Product
+                            </a>
+                            <a href="{{ path('products') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>All Products
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+// Star rating interaction
+document.addEventListener('DOMContentLoaded', function() {
+    const ratingInput = document.querySelector('#comment_rating');
+    const stars = document.querySelectorAll('.star');
+    
+    if (ratingInput && stars.length) {
+        // Hide the number input
+        ratingInput.style.display = 'none';
+        
+        // Set initial rating
+        const initialRating = ratingInput.value || 0;
+        updateStars(initialRating);
+        
+        stars.forEach(star => {
+            // Hover effect
+            star.addEventListener('mouseenter', function() {
+                const value = this.dataset.value;
+                updateStars(value);
+            });
+            
+            // Click to set rating
+            star.addEventListener('click', function() {
+                const value = this.dataset.value;
+                ratingInput.value = value;
+                updateStars(value);
+            });
+        });
+        
+        // Reset on mouse leave
+        document.querySelector('.star-display').addEventListener('mouseleave', function() {
+            updateStars(ratingInput.value || 0);
+        });
+    }
+    
+    function updateStars(rating) {
+        stars.forEach(star => {
+            const value = star.dataset.value;
+            if (value <= rating) {
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

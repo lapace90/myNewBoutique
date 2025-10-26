@@ -1,0 +1,24 @@
+{#
+    Composant réutilisable : Navigation par onglets
+    
+    Props:
+    - tabs: array (tableau de {id: string, label: string, icon: string, active: bool})
+#}
+
+<ul class="nav nav-tabs account-tabs mb-4" role="tablist">
+    {% for tab in tabs %}
+        <li class="nav-item" role="presentation">
+            <button 
+                class="nav-link {{ tab.active ? 'active' : '' }}" 
+                id="{{ tab.id }}-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#{{ tab.id }}" 
+                type="button" 
+                role="tab" 
+                aria-controls="{{ tab.id }}" 
+                aria-selected="{{ tab.active ? 'true' : 'false' }}">
+                <i class="fas {{ tab.icon }} me-2"></i>{{ tab.label }}
+            </button>
+        </li>
+    {% endfor %}
+</ul>

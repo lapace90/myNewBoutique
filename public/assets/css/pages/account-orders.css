@@ -1,0 +1,250 @@
+/* ========================================
+   Orders Page - Page des commandes
+   ======================================== */
+
+.orders-page {
+    padding: 2rem 0;
+}
+
+/* Header cohérent avec les autres pages */
+.orders-header {
+    margin-bottom: 2rem;
+}
+
+.orders-header .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.orders-header .page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+/* Quick Stats */
+.quick-stat {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition-base);
+}
+
+.quick-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.quick-stat i {
+    font-size: 2rem;
+    color: var(--pink-primary);
+}
+
+.quick-stat .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.quick-stat .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* View Toggle */
+.view-toggle {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.view-toggle .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+
+/* Orders Grid (Card View) */
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Order Card */
+.order-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--pink-primary);
+}
+
+.order-card-header {
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-hover));
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-reference {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+}
+
+.order-reference .badge {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.order-status .badge {
+    color: white;
+    padding: 0.5rem;
+}
+
+.order-card-body {
+    padding: 1.5rem;
+}
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.order-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.order-info-item i {
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+}
+
+.order-info-item .info-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.order-info-item .info-value {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.order-card-footer {
+    padding: 1rem 1.5rem;
+    background: var(--bg-light);
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Orders Table */
+.orders-table {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.orders-table thead {
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-hover));
+    color: white;
+}
+
+.orders-table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.orders-table tbody tr {
+    transition: var(--transition-base);
+}
+
+.orders-table tbody tr:hover {
+    background: rgba(255, 105, 180, 0.05);
+    transform: scale(1.01);
+}
+
+.orders-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Empty State */
+.empty-orders {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-orders i {
+    font-size: 5rem;
+    color: var(--pink-primary);
+    opacity: 0.3;
+    margin-bottom: 1.5rem;
+}
+
+.empty-orders h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .orders-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-stat {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .view-toggle {
+        justify-content: center;
+    }
+
+    .orders-header .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+}

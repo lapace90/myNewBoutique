@@ -16,6 +16,7 @@
 @import url('components/footer.css');
 @import url('components/pagination.css');
 @import url('components/carousel.css');
+@import url('components/account-components.css');
 
 /* Pages */
 @import url('pages/home.css');
@@ -25,3 +26,8 @@
 @import url('pages/checkout.css');
 @import url('pages/auth.css');
 @import url('pages/account.css');
+@import url('pages/account-orders.css');
+@import url('pages/order-success.css');
+@import url('pages/order-detail.css');
+@import url('pages/comment.css');
+@import url('pages/password.css');

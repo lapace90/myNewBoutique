@@ -29,8 +29,7 @@ class UserFixtures extends Fixture
         ));
         $manager->persist($admin);
         $faker = Factory::create('fr_FR');
-        //dump($faker->name);
-        //dump($faker->address);
+        
         for ($i = 1; $i < 30; $i++) {
             $user = new User();
             $user->setFirstName($faker->firstName());

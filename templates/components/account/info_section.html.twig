@@ -1,0 +1,31 @@
+{#
+    Composant réutilisable : Section d'informations
+    
+    Props:
+    - title: string (titre de la section)
+    - icon: string (classe Font Awesome)
+    - items: array (tableau de {label: string, value: string})
+    - editUrl: string (optionnel, URL du bouton "Modifier")
+    - editText: string (optionnel, texte du bouton, défaut: "Modifier")
+#}
+
+<div class="info-section">
+    <div class="info-section-header">
+        <h3 class="info-section-title">
+            <i class="fas {{ icon }} me-2"></i>{{ title }}
+        </h3>
+        {% if editUrl is defined %}
+            <a href="{{ editUrl }}" class="btn btn-outline-primary">
+                <i class="fas fa-edit me-1"></i>{{ editText|default('Modifier') }}
+            </a>
+        {% endif %}
+    </div>
+    <div class="info-section-body">
+        {% for item in items %}
+            <div class="info-item">
+                <span class="info-label">{{ item.label }}</span>
+                <span class="info-value">{{ item.value }}</span>
+            </div>
+        {% endfor %}
+    </div>
+</div>

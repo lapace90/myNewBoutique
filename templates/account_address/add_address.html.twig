@@ -11,7 +11,7 @@ Add New Address
 {% block content %}
 <div class="address-form-page">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-10 col-xl-9">
             <div class="form-card">
                 <!-- Header -->
                 <div class="form-header">
@@ -141,10 +141,13 @@ Add New Address
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-lg btn-success">
-                        <i class="fas fa-check-circle me-2"></i>Save Address
-                    </button>
-                    <a href="{{ path('account_address') }}" class="btn btn-lg btn-outline-secondary">
+                    {{ form_row(form.submit, {
+                    'label': app.request.attributes.get('_route') == 'address_edit' ? 'Update Address' : 'Add Address',
+                    'attr': {
+                    'class': 'btn btn-primary btn-lg'
+                    }
+                    }) }}
+                    <a href="{{ path('account_address') }}" class="btn btn-outline-secondary btn-lg">
                         <i class="fas fa-times me-2"></i>Cancel
                     </a>
                 </div>

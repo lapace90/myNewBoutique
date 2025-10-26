@@ -17,7 +17,6 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class ProductController extends AbstractController
 {
-
     #[Route('/our-products', name: 'products')]
     public function index(ProductRepository $repo, Request $request, PaginatorInterface $paginator): Response
     {
@@ -25,19 +24,23 @@ class ProductController extends AbstractController
         $form = $this->createForm(SearchFilterType::class, $search);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Convertir les prix euros → centimes
+        // Vérifier d'abord la recherche simple (navbar)
+        $simpleSearch = $request->query->get('search');
+
+        if ($simpleSearch && !$form->isSubmitted()) {
+            // Recherche simple depuis la navbar
+            $query = $repo->searchByName($simpleSearch);
+        } elseif ($form->isSubmitted() && $form->isValid()) {
+            // Recherche avec filtres avancés (sidebar)
             if ($search->getMinPrice()) {
                 $search->setMinPrice($search->getMinPrice() * 100);
             }
             if ($search->getMaxPrice()) {
                 $search->setMaxPrice($search->getMaxPrice() * 100);
             }
-
-            // Récupérer la query au lieu des résultats
             $query = $repo->findByFiltersQuery($search);
         } else {
-            // Récupérer tous les produits sous forme de query
+            // Tous les produits
             $query = $repo->createQueryBuilder('p')
                 ->orderBy('p.id', 'DESC')
                 ->getQuery();
@@ -46,15 +49,17 @@ class ProductController extends AbstractController
         // Paginer les résultats
         $products = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1), // Numéro de page
-            12 // Nombre de produits par page
+            $request->query->getInt('page', 1),
+            12
         );
 
         return $this->render('product/products.html.twig', [
             'products' => $products,
             'form' => $form->createView(),
+            'searchTerm' => $simpleSearch, // Pour afficher le terme recherché
         ]);
     }
+
     #[Route('/product/{slug}', name: 'product')]
     public function product(Product $product): Response
     {
@@ -78,7 +83,7 @@ class ProductController extends AbstractController
 
             $this->addFlash(
                 'succes',
-                'Le commentaire pour le produit ' . $product->getName() . ' a bien été enregistrée !'
+                 'Your review for ' . $product->getName() . ' has been successfully saved!'
             );
             return $this->redirectToRoute('product', ['slug' => $product->getSlug()]);
         }

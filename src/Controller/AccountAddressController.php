@@ -25,46 +25,40 @@ class AccountAddressController extends AbstractController
     #[Route('/account/address_list', name: 'address_list')]
     public function show(): Response
     {
-        // Rediriger vers la page principale des adresses
         return $this->redirectToRoute('account_address');
     }
 
     #[Route('/account/delete_an_address/{id}', name: 'delete_address')]
     public function delete(EntityManagerInterface $manager, Address $address): Response
     {
-        // on vérifie qu'une adresse existe ou qu'elle appartient à l'utilisateur connecté
         if ($address && $address->getUser() == $this->getUser()) {
             $manager->remove($address);
-            $manager->flush(); // envoyer l'info à la bdd
+            $manager->flush();
             $this->addFlash(
                 'success',
                 "The address {$address->getName()} has been successfully deleted"
             );
         }
-        // on retourne vers l'accueil
         return $this->redirectToRoute('account_address');
     }
 
     #[Route(path: '/account/edit_an_address/{id}', name: 'address_edit')]
     public function edit(Request $request, EntityManagerInterface $manager, Address $address): Response
     {
-        // on vérifie qu'une adresse existe ou qu'elle appartient à l'utilisateur connecté
         if (!$address || $address->getUser() != $this->getUser()) {
             return $this->redirectToRoute('account_address');
         }
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($address); // previent doctrine que l'on veut sauver on persiste dans le temps
-            $manager->flush(); // envoi la requête à la base de donnée
+            $manager->persist($address);
+            $manager->flush();
             $this->addFlash(
                 'success',
-                "The address {$address->getName()} has been changed"
+                "The address {$address->getName()} has been successfully updated"
             );
-            // on retourne vers l'accueil
             return $this->redirectToRoute('account_address');
         }
-        //à gérer
         return $this->render('account_address/add_address.html.twig', [
             'form' => $form->createView()
         ]);
@@ -77,26 +71,14 @@ class AccountAddressController extends AbstractController
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
 
-        // if ($cart->getAddresses()) {
-        //     return $this->redirectToRoute('order');
-        //     }
-        //     // sinon on va vers la gestion des adresses
-        //     else {
-        //     // on retourne vers l'accueil
-        //     return $this->redirectToRoute('account_address');
-        //     }
-
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $address->setUser($this->getUser());
-            $manager->persist($address); // previent doctrine que l'on veut sauver on persiste dans le temps
-            $manager->flush(); // envoi la requête à la base de donnée
+            $manager->persist($address);
+            $manager->flush();
             $this->addFlash(
                 'success',
                 "The address {$address->getName()} has been successfully created!"
             );
-            // on retourne vers l'accueil
             return $this->redirectToRoute('account_address');
         }
         return $this->render('account_address/add_address.html.twig', [
