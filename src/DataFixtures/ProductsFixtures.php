@@ -13,6 +13,9 @@ class ProductsFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
+        
+        // Compteur unique pour les images
+        $imageId = 1;
 
         // Création des catégories
         for ($i = 1; $i <= 10; $i++) {
@@ -28,10 +31,11 @@ class ProductsFixtures extends Fixture
                     ->setDescription($faker->paragraph(3))
                     ->setSubtitle($faker->words(3, true))
                     ->setPrice($faker->numberBetween(1000, 20000))
-                    ->setPicture('https://picsum.photos/360?random=' . $i)
+                    ->setPicture('https://source.unsplash.com/400x400/?product,shopping,style&sig=' . $imageId)
                     ->setCategory($category);
                 
                 $manager->persist($product);
+                $imageId++; // Incrémente pour chaque produit
             }
         }
 

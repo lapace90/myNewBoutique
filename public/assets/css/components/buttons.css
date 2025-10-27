@@ -47,12 +47,24 @@
     padding: 0.9rem 2rem;
 }
 
+.btn.btn-primary {
+    background: linear-gradient(135deg, var(--pink-primary), var(--purple)) !important;
+    border: none;
+    border-radius: var(--radius-sm) !important;
+    padding: 0.6rem 1.5rem !important;
+    transition: var(--transition-base);
+}
+
+.btn.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.4);
+}
+
 /* On ajoute juste les couleurs/effets pour chaque type */
 .btn-lg.btn-primary {
     background: linear-gradient(135deg, var(--pink-primary), var(--purple));
     border: none;
     box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
-    
 }
 
 .btn-lg.btn-primary:hover {
@@ -75,5 +87,5 @@
 .btn-lg.btn-outline-secondary:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
-   
+
 }

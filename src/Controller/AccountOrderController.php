@@ -19,22 +19,6 @@ class AccountOrderController extends AbstractController
         ]);
     }
 
-    // //récupérer que les commandes finalisées et les ranger de la plus récente à la moins récente
-    // public function findSuccessOrder($user, OrderRepository $repo)
-    // {
-    //     $queryBuilder = $repo-> $this->createQueryBuilder('o')
-    //     ->where('o.statut = 1')
-    //     ->andWhere('o.user = :user')
-    //     ->setParameter('user', $user)
-    //     ->orderBy('o.id', 'DESC');
-    //     // On récupère la Query à partir du QueryBuilder
-    //     $query = $queryBuilder->getQuery();
-    //     // On récupère les résultats à partir de la Query
-    //     $results = $query->getResult();
-    //     // On retourne ces résultats
-    //     return $results;
-    // }
-
     #[Route(path: '/account/my-orders/{reference}', name: 'account_order_show')]
         public function show(Order $order): Response
         {
