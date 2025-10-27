@@ -1,0 +1,98 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block email_title %}Order Confirmation - PinkKiwi{% endblock %}
+
+{% block header_title %}✓ Order Confirmed!{% endblock %}
+
+{% block header_subtitle %}
+    <p style="margin: 10px 0 0; opacity: 0.9;">Thank you for your order</p>
+{% endblock %}
+
+{% block content %}
+    <p>Hello <strong>{{ order.user.firstName }} {{ order.user.lastName }}</strong>,</p>
+    
+    <p>Thank you for your order! We're excited to get your products to you.</p>
+
+    {# Order Info #}
+    <div class="box">
+        <table>
+            <tr>
+                <td><strong>Order Number:</strong></td>
+                <td style="text-align: right;">{{ order.reference }}</td>
+            </tr>
+            <tr>
+                <td><strong>Order Date:</strong></td>
+                <td style="text-align: right;">{{ order.createdAt|date('m/d/Y') }}</td>
+            </tr>
+            <tr>
+                <td><strong>Payment Status:</strong></td>
+                <td style="text-align: right; color: #10b981;">✓ Paid</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3 style="color: #ff69b4; margin-top: 30px;">Order Details</h3>
+
+    {# Products #}
+    {% set subtotal = 0 %}
+    {% for item in order.orderDetails %}
+        {% set subtotal = subtotal + (item.price * item.quantity) %}
+        <div class="product-item">
+            <table>
+                <tr>
+                    <td style="width: 70%;">
+                        <strong>{{ item.product.name }}</strong><br>
+                        <small style="color: #666;">{{ item.product.subtitle }}</small>
+                    </td>
+                    <td style="text-align: right;">
+                        {{ item.quantity }} × {{ (item.price/100)|number_format(2) }} €
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right;">
+                        <strong>{{ (item.price * item.quantity / 100)|number_format(2) }} €</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    {% endfor %}
+
+    {# Totals #}
+    <table style="margin-top: 20px;">
+        <tr>
+            <td>Subtotal:</td>
+            <td style="text-align: right;">{{ (subtotal/100)|number_format(2) }} €</td>
+        </tr>
+        <tr>
+            <td>Shipping ({{ order.carrier.name }}):</td>
+            <td style="text-align: right;">{{ (order.carrier.price/100)|number_format(2) }} €</td>
+        </tr>
+        <tr class="total-row">
+            <td>TOTAL:</td>
+            <td style="text-align: right;">{{ ((subtotal + order.carrier.price)/100)|number_format(2) }} €</td>
+        </tr>
+    </table>
+
+    {# Delivery Address #}
+    <h3 style="color: #ff69b4; margin-top: 30px;">Delivery Address</h3>
+    <div class="box">
+        {{ order.delivery|replace({'[br]': '<br>'})|raw }}
+    </div>
+
+    {# CTA Button #}
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('account_order_show', {reference: order.reference}) }}" class="button">
+            View Order Details
+        </a>
+    </div>
+
+    <p>We'll send you a shipping confirmation email with tracking information as soon as your order ships.</p>
+
+    <p>If you have any questions, feel free to <a href="{{ url('contact') }}">contact us</a>.</p>
+
+    <p style="margin-top: 30px;">
+        Best regards,<br>
+        <strong>The PinkKiwi Team 🐦</strong>
+    </p>
+{% endblock %}

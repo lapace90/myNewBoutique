@@ -1,12 +1,4 @@
 /* Authentication Pages */
-.auth-page {
-    padding: 3rem 0;
-    min-height: calc(100vh - 200px);
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
 .auth-card {
     background: white;
     border-radius: var(--radius-xl);

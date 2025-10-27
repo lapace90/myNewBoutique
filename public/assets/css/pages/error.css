@@ -1,0 +1,206 @@
+/* ========================================
+   Error Pages (404, 500, etc.)
+   ======================================== */
+
+.error-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+}
+
+.error-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.error-content {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Error Icon */
+.error-icon {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.error-icon .fa-kiwi-bird {
+    font-size: 6rem;
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: bounce 2s infinite;
+}
+
+.error-code {
+    font-size: 8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-top: -1rem;
+}
+
+/* Error Text */
+.error-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.error-description {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Action Buttons */
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Search Form */
+.error-search {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.error-search .search-wrapper {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.error-search .form-control {
+    border: 2px solid var(--bg-light);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.25rem;
+}
+
+.error-search .form-control:focus {
+    border-color: var(--pink-primary);
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.15);
+}
+
+.error-search .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+}
+
+/* Quick Links */
+.error-links h5 {
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.quick-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: var(--transition-base);
+    min-width: 100px;
+}
+
+.quick-link:hover {
+    background: linear-gradient(135deg, var(--pink-primary), var(--pink-hover));
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.quick-link i {
+    font-size: 1.5rem;
+}
+
+.quick-link span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .error-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .error-code {
+        font-size: 5rem;
+    }
+
+    .error-title {
+        font-size: 1.75rem;
+    }
+
+    .error-description {
+        font-size: 1rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+    }
+
+    .quick-links {
+        gap: 0.75rem;
+    }
+
+    .quick-link {
+        min-width: 80px;
+        padding: 1rem;
+    }
+
+    .quick-link i {
+        font-size: 1.25rem;
+    }
+
+    .quick-link span {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .error-icon .fa-kiwi-bird {
+        font-size: 4rem;
+    }
+
+    .error-code {
+        font-size: 4rem;
+    }
+}

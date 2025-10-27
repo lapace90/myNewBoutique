@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block email_title %}PinkKiwi{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: 20px auto; background: white; }
+        .header { background: linear-gradient(135deg, #ff69b4, #ff1493); color: white; padding: 30px; text-align: center; }
+        .logo { margin-bottom: 15px; }
+        .logo img { height: 60px; width: auto; }
+        .content { padding: 30px; }
+        .box { background: #f9f9f9; border-left: 4px solid #ff69b4; padding: 15px; margin: 20px 0; }
+        .button { display: inline-block; padding: 12px 30px; background: #ff69b4; color: white !important; text-decoration: none; border-radius: 5px; margin: 10px 0; font-weight: bold; }
+        .button:hover { background: #ff1493; }
+        .footer { background: #333; color: white; padding: 20px; text-align: center; font-size: 14px; }
+        table { width: 100%; }
+        td { padding: 5px 0; }
+        a { color: #ff69b4; text-decoration: none; }
+        .product-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .product-item:last-child { border-bottom: none; }
+        .total-row { font-size: 18px; font-weight: bold; padding: 15px 0; border-top: 2px solid #333; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="{{ absolute_url(asset('assets/images/logo.svg')) }}" alt="PinkKiwi" />
+            </div>
+            <h1 style="margin: 0; font-size: 28px;">{% block header_title %}PinkKiwi{% endblock %}</h1>
+            {% block header_subtitle %}{% endblock %}
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="footer">
+            <p style="margin: 0 0 10px;">
+                <img src="{{ absolute_url(asset('assets/images/logo.svg')) }}" alt="PinkKiwi" style="height: 30px; vertical-align: middle;" />
+                <strong style="margin-left: 10px;">PinkKiwi Boutique</strong>
+            </p>
+            <p style="margin: 0 0 10px;">© {{ 'now'|date('Y') }} PinkKiwi Boutique. All rights reserved.</p>
+            <p style="margin: 0; opacity: 0.8;">
+                <a href="{{ url('privacy_policy') }}" style="color: #ff69b4; text-decoration: none;">Privacy</a> |
+                <a href="{{ url('terms_conditions') }}" style="color: #ff69b4; text-decoration: none;">Terms</a> |
+                <a href="{{ url('contact') }}" style="color: #ff69b4; text-decoration: none;">Contact</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

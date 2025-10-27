@@ -1,0 +1,51 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block email_title %}Welcome to PinkKiwi!{% endblock %}
+
+{% block header_title %}🎉 Welcome to PinkKiwi!{% endblock %}
+
+{% block header_subtitle %}
+    <p style="margin: 10px 0 0; opacity: 0.9;">Your account is now active</p>
+{% endblock %}
+
+{% block content %}
+    <p>Hello <strong>{{ user.firstName }}</strong>,</p>
+    
+    <p>Congratulations! Your account has been successfully activated. Welcome to the PinkKiwi family! 🎊</p>
+
+    <h3 style="color: #ff69b4; margin-top: 30px;">What's Next?</h3>
+
+    <div class="box">
+        <strong>🛍️ Start Shopping</strong>
+        <p style="margin: 5px 0 0;">Browse our wide selection of quality products</p>
+    </div>
+
+    <div class="box">
+        <strong>👤 Complete Your Profile</strong>
+        <p style="margin: 5px 0 0;">Add your delivery address for faster checkout</p>
+    </div>
+
+    <div class="box">
+        <strong>🔔 Stay Updated</strong>
+        <p style="margin: 5px 0 0;">Get notified about exclusive deals and new arrivals</p>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('products') }}" class="button">
+            🛒 Start Shopping Now
+        </a>
+    </div>
+
+    <h3 style="color: #ff69b4; margin-top: 30px;">Why Choose PinkKiwi?</h3>
+    <p>✓ Premium Quality Products<br>
+       ✓ Fast & Secure Shipping<br>
+       ✓ 24/7 Customer Support<br>
+       ✓ Easy Returns Within 30 Days</p>
+
+    <p style="margin-top: 30px;">Need help getting started? Don't hesitate to <a href="{{ url('contact') }}">contact us</a>. We're here to help!</p>
+
+    <p style="margin-top: 30px;">
+        Happy shopping!<br>
+        <strong>The PinkKiwi Team 🐦</strong>
+    </p>
+{% endblock %}

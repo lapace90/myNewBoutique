@@ -4,26 +4,32 @@ namespace App\Controller;
 
 use App\Entity\ResetPassword;
 use App\Form\ResetPasswordType;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\ResetPasswordRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\ResetPasswordRepository;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ResetPasswordController extends AbstractController
 {
-
     private $passwordHasher;
     private $manager;
+    private $mailer;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager)
-    {
+    public function __construct(
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $manager,
+        MailerInterface $mailer
+    ) {
         $this->passwordHasher = $passwordHasher;
         $this->manager = $manager;
+        $this->mailer = $mailer;
     }
 
     #[Route('/password-reset', name: 'reset_password')]
@@ -45,14 +51,11 @@ class ResetPasswordController extends AbstractController
                 $this->manager->persist($resetPassword);
                 $this->manager->flush();
 
-                $url = $this->generateUrl('update_password', ['token' => $resetPassword->getToken()]);
-                $contentEmail = 'Reset password, follow this link to create a new password <br> <a href="' . $_SERVER['HTTP_ORIGIN'] . $url . '">Create your new password</a>';
-
-                mail($user->getEmail(), 'Reset password', $contentEmail);
+                $this->sendResetPasswordEmail($user, $resetPassword);
 
                 $this->addFlash(
                     'success',
-                    'A mail has been sent at ' . $_SERVER['HTTP_ORIGIN'] . $url . ' to reset tour password'
+                    'A password reset email has been sent to ' . $user->getEmail()
                 );
             } else {
                 $this->addFlash(
@@ -71,11 +74,9 @@ class ResetPasswordController extends AbstractController
     #[Route('/edit-password/{token}', name: 'update_password')]
     public function update($token, ResetPasswordRepository $repo, Request $request): Response
     {
-
         $resetPassword = $repo->findOneByToken($token);
 
         if (!$resetPassword) {
-
             $this->addFlash(
                 'danger',
                 'The link has expired'
@@ -84,36 +85,57 @@ class ResetPasswordController extends AbstractController
         }
 
         $dateCreate = $resetPassword->getCreatedAt();
-
         $now = new \DateTime();
 
         if ($now > $dateCreate->modify('+1 hour')) {
-
             $this->addFlash(
                 'danger',
                 'The link has expired'
             );
             return $this->redirectToRoute('reset_password');
         }
+
         $user = $resetPassword->getUser();
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($this->passwordHasher->hashPassword(
                 $user,
                 $user->getNewPassword()
             ));
-            $this->manager->persist($user); 
-            $this->manager->flush(); 
+            $this->manager->persist($user);
+            $this->manager->flush();
+
             $this->addFlash(
                 'success',
-                "Le nouveau mot de passe a bien été créé"
+                "Your new password has been successfully created"
             );
             return $this->redirectToRoute('app_login');
         }
+
         return $this->render('reset_password/update.html.twig', [
             "form" => $form->createView(),
         ]);
     }
+
+    private function sendResetPasswordEmail($user, ResetPassword $resetPassword): void
+    {
+        $resetUrl = $this->generateUrl(
+            'update_password',
+            ['token' => $resetPassword->getToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $email = (new Email())
+            ->from('noreply@pinkkiwi.com')
+            ->to($user->getEmail())
+            ->subject('Reset Your PinkKiwi Password')
+            ->html($this->renderView('emails/password_reset.html.twig', [
+                'user' => $user,
+                'resetUrl' => $resetUrl
+            ]));
+
+        $this->mailer->send($email);
+    }
 }
-    

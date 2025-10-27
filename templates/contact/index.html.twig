@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact Us - PinkKiwi Boutique{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    {# Header #}
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold section-title">Contact Us</h1>
+            <p class="lead text-muted">We'd love to hear from you! Send us a message and we'll respond as soon as possible.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {# Contact Information #}
+        <div class="col-lg-4 mb-4">
+            <div class="contact-info-card">
+                <h3 class="contact-info-title">
+                    <i class="fas fa-info-circle me-2"></i>Contact Information
+                </h3>
+                
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h5>Email</h5>
+                        <p><a href="mailto:contact@pinkkiwi.com">contact@pinkkiwi.com</a></p>
+                        <p class="text-muted small">We reply within 24 hours</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h5>Phone</h5>
+                        <p><a href="tel:+33123456789">+33 1 23 45 67 89</a></p>
+                        <p class="text-muted small">Mon-Fri: 9am - 6pm (CET)</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h5>Address</h5>
+                        <p>123 Kiwi Street<br>75001 Paris, France</p>
+                    </div>
+                </div>
+
+                <div class="contact-social mt-4">
+                    <h5 class="mb-3">Follow Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {# Support Hours #}
+            <div class="support-hours-card mt-4">
+                <h4><i class="fas fa-clock me-2"></i>Support Hours</h4>
+                <ul class="list-unstyled mb-0">
+                    <li><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM</li>
+                    <li><strong>Saturday:</strong> 10:00 AM - 4:00 PM</li>
+                    <li><strong>Sunday:</strong> Closed</li>
+                </ul>
+                <p class="text-muted small mt-3 mb-0">
+                    <i class="fas fa-info-circle me-1"></i>
+                    All times are in Central European Time (CET)
+                </p>
+            </div>
+        </div>
+
+        {# Contact Form #}
+        <div class="col-lg-8">
+            <div class="contact-form-card">
+                <h3 class="contact-form-title">
+                    <i class="fas fa-paper-plane me-2"></i>Send us a Message
+                </h3>
+
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.name) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(form.email) }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.subject) }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form_row(form.message) }}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form_row(form.submit) }}
+                    </div>
+                {{ form_end(form) }}
+
+                <div class="contact-features mt-4">
+                    <div class="feature-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Your data is secure</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-reply"></i>
+                        <span>Fast response time</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-headset"></i>
+                        <span>Friendly support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   {# FAQ Quick Links #}
+    <div class="faq-section mt-5" id="faq">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold">Frequently Asked Questions</h3>
+            <p class="text-muted">You might find your answer here</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="faq-card">
+                    <i class="fas fa-shipping-fast fa-2x text-primary mb-3"></i>
+                    <h5>Shipping & Delivery</h5>
+                    <p class="text-muted">Questions about shipping times, costs, and tracking</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="faq-card">
+                    <i class="fas fa-undo fa-2x text-primary mb-3"></i>
+                    <h5>Returns & Refunds</h5>
+                    <p class="text-muted">Information about our return policy and refund process</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="faq-card">
+                    <i class="fas fa-credit-card fa-2x text-primary mb-3"></i>
+                    <h5>Payment Methods</h5>
+                    <p class="text-muted">Learn about accepted payment methods and security</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

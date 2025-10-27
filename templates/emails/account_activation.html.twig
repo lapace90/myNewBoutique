@@ -1,0 +1,38 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block email_title %}Activate Your Account - PinkKiwi{% endblock %}
+
+{% block header_title %}Welcome to PinkKiwi!{% endblock %}
+
+{% block header_subtitle %}
+    <p style="margin: 10px 0 0; opacity: 0.9;">Just one more step...</p>
+{% endblock %}
+
+{% block content %}
+    <p>Hello <strong>{{ user.firstName }}</strong>,</p>
+    
+    <p>Thank you for joining PinkKiwi Boutique! We're excited to have you with us.</p>
+    
+    <p>To complete your registration and activate your account, please click the button below:</p>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ activationUrl }}" class="button">
+            ✓ Activate My Account
+        </a>
+    </div>
+
+    <div class="box" style="background: #fff3cd; border-left-color: #ffc107;">
+        <p style="margin: 0;"><strong>⚠️ Important:</strong></p>
+        <p style="margin: 5px 0 0;">This activation link is valid for 24 hours. If it expires, you'll need to register again.</p>
+    </div>
+
+    <p>If the button doesn't work, copy and paste this link into your browser:</p>
+    <p style="word-break: break-all; color: #ff69b4;">{{ activationUrl }}</p>
+
+    <p style="margin-top: 30px;">If you didn't create an account with us, please ignore this email.</p>
+
+    <p style="margin-top: 30px;">
+        Best regards,<br>
+        <strong>The PinkKiwi Team 🐦</strong>
+    </p>
+{% endblock %}

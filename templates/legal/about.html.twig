@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us - PinkKiwi{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold section-title">About PinkKiwi</h1>
+            <p class="lead text-muted">Your trusted online shopping destination</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-lg-10 col-xl-8 mx-auto">
+            <div class="about-content">
+                <div class="about-section">
+                    <h2><i class="fas fa-heart text-primary me-2"></i>Our Story</h2>
+                    <p>Founded with a passion for quality and customer satisfaction, PinkKiwi Boutique has grown to become a trusted name in online shopping. We believe that everyone deserves access to high-quality products at fair prices.</p>
+                    <p>What started as a small project has evolved into a full-fledged e-commerce platform, serving customers who value quality, style, and excellent service.</p>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-bullseye text-primary me-2"></i>Our Mission</h2>
+                    <p>Our mission is simple: to provide our customers with the best online shopping experience possible. We carefully curate our product selection to ensure quality, and we're committed to excellent customer service at every step.</p>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-star text-primary me-2"></i>Why Choose Us</h2>
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                                <h4>Secure Shopping</h4>
+                                <p>Your data is protected with industry-standard encryption and security measures.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <i class="fas fa-shipping-fast fa-2x text-primary mb-3"></i>
+                                <h4>Fast Delivery</h4>
+                                <p>We work with reliable shipping partners to get your orders to you quickly.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <i class="fas fa-headset fa-2x text-primary mb-3"></i>
+                                <h4>24/7 Support</h4>
+                                <p>Our customer service team is always here to help with any questions or concerns.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <i class="fas fa-undo fa-2x text-primary mb-3"></i>
+                                <h4>Easy Returns</h4>
+                                <p>Not satisfied? We offer hassle-free returns within 30 days of purchase.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-users text-primary me-2"></i>Our Values</h2>
+                    <ul class="values-list">
+                        <li><strong>Quality:</strong> We never compromise on product quality</li>
+                        <li><strong>Transparency:</strong> Honest communication with our customers</li>
+                        <li><strong>Innovation:</strong> Constantly improving our services</li>
+                        <li><strong>Sustainability:</strong> Committed to environmentally responsible practices</li>
+                        <li><strong>Customer First:</strong> Your satisfaction is our priority</li>
+                    </ul>
+                </div>
+
+                <div class="about-cta text-center">
+                    <h3 class="mb-4">Ready to Start Shopping?</h3>
+                    <a href="{{ path('products') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-shopping-bag me-2"></i>Browse Products
+                    </a>
+                    <a href="{{ path('contact') }}" class="btn btn-outline-primary btn-lg ms-2">
+                        <i class="fas fa-envelope me-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

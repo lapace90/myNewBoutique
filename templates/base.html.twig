@@ -18,6 +18,8 @@
 	<link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
 	{% block stylesheet %}{% endblock %}
 </head>
+{# Cookie Banner #}
+{% include 'components/cookie_banner.html.twig' %}
 
 <body>
 	<header>
@@ -102,6 +104,7 @@
 
 	<script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/cookies.js') }}"></script>
 	{% block javascript %}{% endblock %}
 </body>
 

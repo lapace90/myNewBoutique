@@ -1,0 +1,116 @@
+{# Cookie Consent Banner #}
+<div id="cookieBanner" class="cookie-banner" style="display: none;">
+    <div class="cookie-banner-content">
+        <div class="cookie-banner-text">
+            <h5><i class="fas fa-cookie-bite me-2"></i>Cookie Preferences</h5>
+            <p>We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking "Accept All", you consent to our use of cookies. <a href="{{ path('privacy_policy') }}#cookies">Learn more</a></p>
+        </div>
+        <div class="cookie-banner-actions">
+            <button id="cookieReject" class="btn btn-outline-light">
+                <i class="fas fa-times me-1"></i>Reject Non-Essential
+            </button>
+            <button id="cookieSettings" class="btn btn-outline-light">
+                <i class="fas fa-cog me-1"></i>Settings
+            </button>
+            <button id="cookieAccept" class="btn btn-light">
+                <i class="fas fa-check me-1"></i>Accept All
+            </button>
+        </div>
+    </div>
+</div>
+
+{# Cookie Settings Modal #}
+<div id="cookieModal" class="cookie-modal" style="display: none;">
+    <div class="cookie-modal-overlay"></div>
+    <div class="cookie-modal-content">
+        <div class="cookie-modal-header">
+            <h3><i class="fas fa-cookie-bite me-2"></i>Cookie Preferences</h3>
+            <button id="cookieModalClose" class="btn-close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cookie-modal-body">
+            <p class="text-muted mb-4">We use cookies to improve your experience on our site. You can choose which categories of cookies you want to allow.</p>
+            
+            {# Essential Cookies - Always On #}
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <div>
+                        <h5><i class="fas fa-shield-alt text-success me-2"></i>Essential Cookies</h5>
+                        <p class="text-muted small mb-0">These cookies are necessary for the website to function and cannot be switched off.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <span class="badge bg-success">Always Active</span>
+                    </div>
+                </div>
+                <div class="cookie-category-details">
+                    <small class="text-muted">Used for: Authentication, security, shopping cart functionality</small>
+                </div>
+            </div>
+
+            {# Analytics Cookies #}
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <div>
+                        <h5><i class="fas fa-chart-line text-primary me-2"></i>Analytics Cookies</h5>
+                        <p class="text-muted small mb-0">Help us understand how visitors interact with our website.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="analyticsToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="cookie-category-details">
+                    <small class="text-muted">Used for: Google Analytics, visitor statistics, performance monitoring</small>
+                </div>
+            </div>
+
+            {# Marketing Cookies #}
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <div>
+                        <h5><i class="fas fa-bullhorn text-warning me-2"></i>Marketing Cookies</h5>
+                        <p class="text-muted small mb-0">Used to deliver personalized advertisements relevant to you.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="marketingToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="cookie-category-details">
+                    <small class="text-muted">Used for: Targeted advertising, social media integration, remarketing</small>
+                </div>
+            </div>
+
+            {# Functional Cookies #}
+            <div class="cookie-category">
+                <div class="cookie-category-header">
+                    <div>
+                        <h5><i class="fas fa-sliders-h text-info me-2"></i>Functional Cookies</h5>
+                        <p class="text-muted small mb-0">Enable enhanced functionality and personalization.</p>
+                    </div>
+                    <div class="cookie-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="functionalToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="cookie-category-details">
+                    <small class="text-muted">Used for: Language preferences, region selection, user interface customization</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="cookie-modal-footer">
+            <button id="savePreferences" class="btn btn-primary btn-lg w-100">
+                <i class="fas fa-save me-2"></i>Save My Preferences
+            </button>
+        </div>
+    </div>
+</div>
